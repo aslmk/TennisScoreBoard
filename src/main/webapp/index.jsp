@@ -14,8 +14,8 @@
 <body>
     <div class="container">
         <form action="/new-match" method="post">
-            <input type="text" name="player1" placeholder="player1">
-            <input type="text" name="player2" placeholder="player2">
+            <input type="text" name="player1" placeholder="Name of first player">
+            <input type="text" name="player2" placeholder="Name of second player">
             <button>send</button>
         </form>
     </div>

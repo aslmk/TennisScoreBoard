@@ -2,6 +2,7 @@ package aslmk.Services.Impl;
 
 import aslmk.DAO.PlayersDAO;
 import aslmk.Exceptions.InvalidParametersException;
+import aslmk.Exceptions.MatchNotFoundException;
 import aslmk.Models.Match;
 import aslmk.Models.MatchScore;
 import aslmk.Models.Player;
@@ -12,7 +13,6 @@ import java.util.UUID;
 
 public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationService {
     OngoingMatchesServiceImpl ongoingMatchesService = new OngoingMatchesServiceImpl();
-    FinishedMatchesPersistenceServiceImpl finishedMatchesPersistenceService = new FinishedMatchesPersistenceServiceImpl();
     PlayersDAO playersDAO = new PlayersDAO();
 
     @Override
@@ -20,7 +20,7 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
         MatchScore currentMatch = ongoingMatchesService.getMatchByUUID(match_uuid);
 
         if (currentMatch == null) {
-            throw new IllegalArgumentException("Match not found");
+            throw new MatchNotFoundException();
         }
 
         int opponentId = Utils.getOpponentId(playerId);
@@ -43,13 +43,14 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
             }
             currentMatch.incrementTieBreakPointsOfPlayer(playerId);
         }
-        playerAddPoints(playerId, currentMatch);
+
+        addPointsToPlayer(playerId, currentMatch);
 
 
         return currentMatch;
     }
 
-    private void playerAddPoints(int playerId, MatchScore match) {
+    private void addPointsToPlayer(int playerId, MatchScore match) {
         int playerPoints = match.getPointsOfPlayer(playerId);
 
         if (playerPoints < 30) {
@@ -76,7 +77,7 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
     }
     private boolean isGameWinner(MatchScore match, int playerId, int opponentId) {
         int pointsDiff = match.getPointsOfPlayer(playerId) - match.getPointsOfPlayer(opponentId);
-        return match.getPointsOfPlayer(playerId) > 40 && pointsDiff >= 2;
+        return match.getPointsOfPlayer(playerId) >= 40 && pointsDiff >= 2;
     }
     private boolean isSetWinner(MatchScore match, int playerId, int opponentId) {
         int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);

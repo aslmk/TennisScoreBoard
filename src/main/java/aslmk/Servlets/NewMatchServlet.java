@@ -36,10 +36,23 @@ public class NewMatchServlet extends HttpServlet {
         ongoingMatchesService.createNewMatch(player1, player2);
         UUID match_uuid = ongoingMatchesService.getUuidOfMatch();
 
+        setDefaultPlayersScore(request, player1, player2);
         String newUrl = request.getContextPath() + "/match-score.jsp?uuid=" + match_uuid;
-        System.out.println("UUID="+match_uuid);
-        System.out.println("player1Id="+player1.getId());
-        System.out.println("player2Id="+player2.getId());
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(newUrl);
+        dispatcher.forward(request, response);
         response.sendRedirect(newUrl);
+    }
+    private static void setDefaultPlayersScore(HttpServletRequest request, Player player1, Player player2) {
+        request.setAttribute("firstPlayerId", player1.getId());
+        request.setAttribute("secondPlayerId", player2.getId());
+        request.setAttribute("firstPlayerName", player1.getName());
+        request.setAttribute("secondPlayerName", player2.getName());
+        request.setAttribute("firstPlayerPoints", 0);
+        request.setAttribute("secondPlayerPoints", 0);
+        request.setAttribute("firstPlayerGames", 0);
+        request.setAttribute("secondPlayerGames", 0);
+        request.setAttribute("firstPlayerSets", 0);
+        request.setAttribute("secondPlayerSets", 0);
     }
 }
