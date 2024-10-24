@@ -6,12 +6,14 @@ import aslmk.Utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class MatchesDAO {
     public List<Match> getAllMatches() {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Match", Match.class).list();
+            List<Match> matches = session.createQuery("FROM Match", Match.class).list();
+            return matches;
         }
     }
     public void saveMatchToDatabase(Match match) {

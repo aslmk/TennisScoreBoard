@@ -1,25 +1,37 @@
 package aslmk.Servlets;
 
+import aslmk.Models.Match;
+import aslmk.Services.Impl.FinishedMatchesPersistenceServiceImpl;
 import aslmk.Services.Impl.MatchesServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.hibernate.annotations.processing.SQL;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "MatchesServlet", value = "/matches")
 public class MatchesServlet extends HttpServlet {
     PlayersServiceImpl playersService = new PlayersServiceImpl();
     MatchesServiceImpl matchesService = new MatchesServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //String filterByName = request.getParameter("filter_by_player_name");
         //Players player =  playersService.findByName(filterByName);
-        response.setContentType("application/json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(response.getWriter(), matchesService.getAllMatches());
+
+        try {
+            List<Match> matches = matchesService.getAllMatches();
+            request.setAttribute("allMatches", matches);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -83,7 +83,7 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
         int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
         int gamesCountOfOpponent = match.getGamesOfPlayer(opponentId);
         int gamesCountDiff = gamesCountOfPlayer - gamesCountOfOpponent;
-        return gamesCountOfPlayer >= 6 && gamesCountDiff >= 2;
+        return gamesCountOfPlayer > 6 && gamesCountDiff >= 2;
     }
     private boolean isTieBreak(MatchScore match, int playerId, int opponentId) {
         int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
