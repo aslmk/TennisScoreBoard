@@ -59,7 +59,7 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
             match.incrementPointsOfPlayer(playerId, 10);
         }
     }
-    private boolean isDeuce(MatchScore match, int playerId, int opponentId) {
+    public boolean isDeuce(MatchScore match, int playerId, int opponentId) {
         return match.getPointsOfPlayer(playerId) == 40 && match.getPointsOfPlayer(opponentId) == 40;
 
     }
@@ -75,22 +75,22 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
             match.resetAdvantage();
         }
     }
-    private boolean isGameWinner(MatchScore match, int playerId, int opponentId) {
+    public boolean isGameWinner(MatchScore match, int playerId, int opponentId) {
         int pointsDiff = match.getPointsOfPlayer(playerId) - match.getPointsOfPlayer(opponentId);
         return match.getPointsOfPlayer(playerId) >= 40 && pointsDiff >= 2;
     }
-    private boolean isSetWinner(MatchScore match, int playerId, int opponentId) {
+    public boolean isSetWinner(MatchScore match, int playerId, int opponentId) {
         int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
         int gamesCountOfOpponent = match.getGamesOfPlayer(opponentId);
         int gamesCountDiff = gamesCountOfPlayer - gamesCountOfOpponent;
         return gamesCountOfPlayer > 6 && gamesCountDiff >= 2;
     }
-    private boolean isTieBreak(MatchScore match, int playerId, int opponentId) {
+    public boolean isTieBreak(MatchScore match, int playerId, int opponentId) {
         int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
         int gamesCountOfOpponent = match.getGamesOfPlayer(opponentId);
         return gamesCountOfPlayer == 6 && gamesCountOfOpponent == 6;
     }
-    private boolean isTieBreakWinner(MatchScore match, int playerId, int opponentId) {
+    public boolean isTieBreakWinner(MatchScore match, int playerId, int opponentId) {
         int tieBreakPointsCountOfPlayer = match.getTieBreakPoints(playerId);
         int tieBreakPointsCountOfOpponent = match.getTieBreakPoints(opponentId);
         int tieBreakPointsDiff = tieBreakPointsCountOfPlayer - tieBreakPointsCountOfOpponent;
