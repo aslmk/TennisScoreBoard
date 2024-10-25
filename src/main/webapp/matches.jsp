@@ -13,7 +13,9 @@
 <html>
 <head>
     <title>Matches</title>
+    <style><%@ include file="/css/reset.css"%></style>
     <style><%@ include file="/css/styles.css"%></style>
+    <style><%@ include file="/css/matches.css"%></style>
 </head>
 <body>
     <%
@@ -22,31 +24,35 @@
 
     <div class="nav">
         <ul>
-            <li><a href="/index.jsp">New match</a></li>
+            <li><a href="/newMatch.jsp">New match</a></li>
             <li><a href="/matches">Matches</a></li>
         </ul>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>First player</th>
-                <th>Second player</th>
-                <th>Winner</th>
-            </tr>
-        </thead>
-        <tbody>
-        <%
-            for (Match match: allMatches) {
-        %>
-            <tr>
-                <th><%= match.getFirstPlayer().getName() %></th>
-                <th><%= match.getSecondPlayer().getName() %></th>
-                <th><%= match.getWinner().getName() %></th>
-            </tr>
-        <% } %>
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>First player</th>
+                    <th>Second player</th>
+                    <th>Winner</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    for (Match match: allMatches) {
+                %>
+                <tr>
+                    <td><%= match.getFirstPlayer().getName() %></td>
+                    <td><%= match.getSecondPlayer().getName() %></td>
+                    <td><%= match.getWinner().getName() %></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </body>
 </html>

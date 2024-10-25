@@ -83,7 +83,7 @@ public class MatchScoreServlet extends HttpServlet {
 
             setPlayerScores(currentMatchScore, request);
 
-            getServletContext().getRequestDispatcher("/match-score.jsp?uuid="+match_uuid).forward(request, response);
+            getServletContext().getRequestDispatcher("/matchScore.jsp?uuid="+match_uuid).forward(request, response);
 
         } catch (InvalidParametersException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

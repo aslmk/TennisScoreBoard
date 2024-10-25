@@ -10,7 +10,9 @@
 <html>
 <head>
     <title>Current match</title>
+    <style><%@ include file="/css/reset.css"%></style>
     <style><%@ include file="/css/styles.css"%></style>
+    <style><%@ include file="/css/matchScore.css"%></style>
 </head>
 <body>
 <%
@@ -18,30 +20,38 @@
 %>
 <div class="nav">
     <ul>
-        <li><a href="/index.jsp">New match</a></li>
+        <li><a href="/newMatch.jsp">New match</a></li>
         <li><a href="/matches">Matches</a></li>
     </ul>
 </div>
 
 <div class="container">
-    <div class="playerScoreContainer">
-        <div class="firstPlayerContainer">
-            <div class="firstPlayerScores">
-                <p>Player1: ${firstPlayerName}</p>
-                <p>Points: ${firstPlayerPoints}</p>
-                <p>Games: ${firstPlayerGames}</p>
-                <p>Sets: ${firstPlayerSets}</p>
-            </div>
-        </div>
-        <div class="secondPlayerContainer">
-            <div class="secondPlayerScores">
-                <p>Player2: ${secondPlayerName}</p>
-                <p>Points: ${secondPlayerPoints}</p>
-                <p>Games: ${secondPlayerGames}</p>
-                <p>Sets: ${secondPlayerSets}</p>
-            </div>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Players</th>
+                <th>Points</th>
+                <th>Games</th>
+                <th>Sets</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${firstPlayerName}</td>
+                <td>${firstPlayerPoints}</td>
+                <td>${firstPlayerGames}</td>
+                <td>${firstPlayerSets}</td>
+            </tr>
+            <tr>
+                <td>${secondPlayerName}</td>
+                <td>${secondPlayerPoints}</td>
+                <td>${secondPlayerGames}</td>
+                <td>${secondPlayerSets}</td>
+            </tr>
+            </tbody>
 
-        </div>
+        </table>
     </div>
     <div class="buttons">
         <form action="/match-score" method="post">

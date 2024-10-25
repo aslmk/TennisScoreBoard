@@ -27,21 +27,31 @@ public class NewMatchServlet extends HttpServlet {
         String player1Name = request.getParameter("player1");
         String player2Name = request.getParameter("player2");
 
+        if (player1Name.equals(player2Name)) {
+            //PlayersNameException;
+            return;
+        }
+
         Player player1 = new Player(player1Name);
         Player player2 = new Player(player2Name);
 
-        playersService.createPlayer(player1);
-        playersService.createPlayer(player2);
+        if (playersService.findByName(player1.getName()) == null) {
+            playersService.createPlayer(player1);
+        }
+        if (playersService.findByName(player2.getName()) == null) {
+            playersService.createPlayer(player2);
+        }
+
 
         ongoingMatchesService.createNewMatch(player1, player2);
         UUID match_uuid = ongoingMatchesService.getUuidOfMatch();
 
         setDefaultPlayersScore(request, player1, player2);
-        String newUrl = request.getContextPath() + "/match-score.jsp?uuid=" + match_uuid;
+        String newUrl = request.getContextPath() + "/matchScore.jsp?uuid=" + match_uuid;
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(newUrl);
         dispatcher.forward(request, response);
-        response.sendRedirect(newUrl);
+        //response.sendRedirect(newUrl);
     }
     private static void setDefaultPlayersScore(HttpServletRequest request, Player player1, Player player2) {
         request.setAttribute("firstPlayerId", player1.getId());

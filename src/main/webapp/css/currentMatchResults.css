@@ -1,0 +1,16 @@
+.results-container {
+    max-width: 600px;
+    border: 2px solid #4CAF50;
+    padding: 15px;
+}
+
+.results-container h1, h2 {
+    margin: 10px 0;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.results-container h1 {
+    font-weight: bold;
+    text-align: center;
+}
