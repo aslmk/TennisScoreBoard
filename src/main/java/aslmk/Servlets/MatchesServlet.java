@@ -24,8 +24,20 @@ public class MatchesServlet extends HttpServlet {
         //String filterByName = request.getParameter("filter_by_player_name");
         //Players player =  playersService.findByName(filterByName);
 
+        int pageNumber;
         try {
-            List<Match> matches = matchesService.getAllMatches();
+            pageNumber = Integer.parseInt(request.getParameter("page"));
+        } catch (NumberFormatException e) {
+            pageNumber = 1;
+        }
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        }
+
+        try {
+            //List<Match> matches = matchesService.getAllMatches();
+            List<Match> matches = matchesService.getAllMatchesByPage(pageNumber);
+            request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("allMatches", matches);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);

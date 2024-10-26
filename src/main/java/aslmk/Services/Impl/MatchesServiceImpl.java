@@ -13,4 +13,9 @@ public class MatchesServiceImpl implements MatchesService {
     public List<Match> getAllMatches() throws SQLException {
         return matchesDAO.getAllMatches();
     }
+
+    @Override
+    public List<Match> getAllMatchesByPage(int page) throws SQLException {
+        return matchesDAO.getAllMatchesByPage(page);
+    }
 }

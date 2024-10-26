@@ -20,6 +20,7 @@
 <body>
     <%
         List<Match> allMatches = (List<Match>) request.getAttribute("allMatches");
+        int pageNumber = (int) request.getAttribute("pageNumber");
     %>
 
     <div class="nav">
@@ -51,6 +52,10 @@
                 <% } %>
                 </tbody>
             </table>
+            <div class="pageNavigation">
+                <a href="/matches?page=${pageNumber - 1}" ${pageNumber == 1 ? 'style="visibility: hidden;"' : ''}>Previous page</a>
+                <a href="/matches?page=${pageNumber + 1}">Next page</a>
+            </div>
         </div>
     </div>
 
