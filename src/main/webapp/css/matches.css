@@ -20,3 +20,13 @@
     background-color: #e9ecef;
     border-color: #007bff;
 }
+
+.findMatchByPlayerName {
+    width: 100%;
+}
+
+input[type="text"] {
+    width: calc(100% - 100px);
+    margin-bottom: 10px;
+}
+

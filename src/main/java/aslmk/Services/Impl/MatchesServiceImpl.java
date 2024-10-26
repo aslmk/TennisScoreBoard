@@ -18,4 +18,18 @@ public class MatchesServiceImpl implements MatchesService {
     public List<Match> getAllMatchesByPage(int page) throws SQLException {
         return matchesDAO.getAllMatchesByPage(page);
     }
+
+    @Override
+    public List<Match> getMatchesByPlayerId(int playerId) throws SQLException {
+        return matchesDAO.getMatchesByPlayerId(playerId);
+    }
+
+    @Override
+    public boolean hasNextPage(int playerId, int pageNumber) throws SQLException {
+        return matchesDAO.hasNextPage(playerId, pageNumber);
+    }
+    @Override
+    public boolean hasNextPage(int pageNumber) throws SQLException {
+        return matchesDAO.hasNextPage(pageNumber);
+    }
 }
