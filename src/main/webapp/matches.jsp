@@ -22,6 +22,7 @@
         List<Match> allMatches = (List<Match>) request.getAttribute("allMatches");
         int pageNumber = (int) request.getAttribute("pageNumber");
         boolean hasNextPage = (boolean) request.getAttribute("hasNextPage");
+        boolean isFilterApplied = (boolean) request.getAttribute("isFilterApplied");
     %>
 
     <div class="nav">
@@ -37,7 +38,6 @@
                 <input type="text" name="filter_by_player_name" placeholder="Enter player name to find his matches">
                 <button>Find</button>
             </form>
-
         </div>
         <div class="table-container">
             <table>
@@ -62,12 +62,12 @@
             </table>
             <div class="pageNavigation">
                 <a href="/matches?page=${pageNumber - 1}" ${pageNumber == 1 ? 'style="visibility: hidden;"' : ''}>Previous page</a>
-                <%
-                    if (hasNextPage) {%>
-                        <a href="/matches?page=${pageNumber + 1}" >Next page</a>
-                <%  }%>
-
-
+                <% if (hasNextPage) {%>
+                    <a href="/matches?page=${pageNumber + 1}" >Next page</a>
+                <%}%>
+                <% if (isFilterApplied) {%>
+                    <a href="/matches">Show all</a>
+                <%}%>
             </div>
         </div>
     </div>

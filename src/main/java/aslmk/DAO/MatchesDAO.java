@@ -1,24 +1,16 @@
 package aslmk.DAO;
 
 import aslmk.Models.Match;
-import aslmk.Models.MatchScore;
 import aslmk.Utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class MatchesDAO {
     private static final int pageSize = 10;
 
-    public List<Match> getAllMatches() {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            List<Match> matches = session.createQuery("FROM Match", Match.class).list();
-            return matches;
-        }
-    }
     public void saveMatchToDatabase(Match match) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();) {
             Transaction transaction = session.beginTransaction();
@@ -26,14 +18,13 @@ public class MatchesDAO {
             transaction.commit();
         }
     }
-    public List<Match> getAllMatchesByPage(int pageNumber) {
+    public List<Match> getMatchesByPage(int pageNumber) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             int offset = (pageNumber - 1) * 10;
             List<Match> matches = session.createQuery("FROM Match", Match.class).setFirstResult(offset).setMaxResults(pageSize).list();
             return matches;
         }
     }
-
     public List<Match> getMatchesByPlayerId(int playerId) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             String hql = "FROM Match WHERE player1.id = :id OR player2.id = :id";

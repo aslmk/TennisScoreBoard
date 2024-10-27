@@ -4,13 +4,14 @@ import aslmk.Models.Match;
 import aslmk.Models.Player;
 import aslmk.Services.Impl.MatchesServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
+import aslmk.Utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "MatchesServlet", value = "/matches")
@@ -20,22 +21,14 @@ public class MatchesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pageNumber;
-        try {
-            pageNumber = Integer.parseInt(request.getParameter("page"));
-        } catch (NumberFormatException e) {
-            pageNumber = 1;
-        }
-        if (pageNumber < 1) {
-            pageNumber = 1;
-        }
+        int pageNumber = Utils.getPageNumber(request.getParameter("page"));
 
         try {
-            //List<Match> matches = matchesService.getAllMatches();
-            List<Match> matches = matchesService.getAllMatchesByPage(pageNumber);
+            List<Match> matches = matchesService.getMatchesByPage(pageNumber);
             request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("allMatches", matches);
             request.setAttribute("hasNextPage", matchesService.hasNextPage(pageNumber));
+            request.setAttribute("isFilterApplied", false);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
@@ -45,35 +38,30 @@ public class MatchesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pageNumber;
+        int pageNumber = Utils.getPageNumber(request.getParameter("page"));
         boolean hasNextPage;
-        int playerId = -1;
-
-        try {
-            pageNumber = Integer.parseInt(request.getParameter("page"));
-        } catch (NumberFormatException e) {
-            pageNumber = 1;
-        }
-        if (pageNumber < 1) {
-            pageNumber = 1;
-        }
-
+        boolean isFilterApplied;
+        int playerId;
+        List<Match> matches;
         String filterByName = request.getParameter("filter_by_player_name");
 
         try {
-            Player player =  playersService.findByName(filterByName);
-
-            if (filterByName == null) {
-                hasNextPage = matchesService.hasNextPage(pageNumber);
-            } else {
+            Player player =  playersService.findByName(filterByName.trim());
+            if (player != null) {
                 playerId = player.getId();
+                matches = matchesService.getMatchesByPlayerId(playerId);
                 hasNextPage = matchesService.hasNextPage(playerId, pageNumber);
+                isFilterApplied = true;
+            } else {
+                matches = matchesService.getMatchesByPage(pageNumber);
+                hasNextPage = matchesService.hasNextPage(pageNumber);
+                isFilterApplied = false;
             }
-
-            List<Match> matches = matchesService.getMatchesByPlayerId(playerId);
-            request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("allMatches", matches);
             request.setAttribute("hasNextPage", hasNextPage);
+            request.setAttribute("pageNumber", pageNumber);
+            request.setAttribute("isFilterApplied", isFilterApplied);
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {

@@ -9,14 +9,10 @@ import java.util.List;
 
 public class MatchesServiceImpl implements MatchesService {
     MatchesDAO matchesDAO = new MatchesDAO();
-    @Override
-    public List<Match> getAllMatches() throws SQLException {
-        return matchesDAO.getAllMatches();
-    }
 
     @Override
-    public List<Match> getAllMatchesByPage(int page) throws SQLException {
-        return matchesDAO.getAllMatchesByPage(page);
+    public List<Match> getMatchesByPage(int page) throws SQLException {
+        return matchesDAO.getMatchesByPage(page);
     }
 
     @Override
