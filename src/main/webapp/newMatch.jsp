@@ -22,6 +22,7 @@
     </div>
     <div class="container">
         <div class="form-container">
+            <h1>Tennis score board</h1>
             <form action="/new-match" method="post">
                 <div class="form-item">
                     <input type="text" name="player1" placeholder="Name of the first player">

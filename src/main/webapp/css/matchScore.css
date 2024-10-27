@@ -6,3 +6,7 @@
 form {
     display: inline-block;
 }
+
+button {
+    width: fit-content;
+}
