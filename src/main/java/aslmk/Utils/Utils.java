@@ -27,7 +27,7 @@ public class Utils {
     public static void redirectToErrorPage(int statusCode, String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(statusCode);
         request.setAttribute("errorMessage", message);
-        request.setAttribute("status", statusCode);
+        request.setAttribute("statusCode", statusCode);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/errorPage.jsp");
         dispatcher.forward(request, response);
     }

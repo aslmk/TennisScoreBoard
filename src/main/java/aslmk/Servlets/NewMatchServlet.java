@@ -34,12 +34,18 @@ public class NewMatchServlet extends HttpServlet {
 
             Player player1 = new Player(player1Name.toUpperCase());
             Player player2 = new Player(player2Name.toUpperCase());
+            Player existingPlayer1 = playersService.findByName(player1.getName());
+            Player existingPlayer2 = playersService.findByName(player2.getName());
 
-            if (playersService.findByName(player1.getName()) == null) {
+            if (existingPlayer1 == null) {
                 playersService.createPlayer(player1);
+            } else {
+                player1 = existingPlayer1;
             }
-            if (playersService.findByName(player2.getName()) == null) {
+            if (existingPlayer2 == null) {
                 playersService.createPlayer(player2);
+            } else {
+                player2 = existingPlayer2;
             }
 
             ongoingMatchesService.createNewMatch(player1, player2);
