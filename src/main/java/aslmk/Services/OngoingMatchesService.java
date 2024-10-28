@@ -11,6 +11,4 @@ public interface OngoingMatchesService {
     void createNewMatch(Player player1, Player player2);
     MatchScore getMatchByUUID(UUID uuid);
     void removeMatch(UUID uuid);
-    int getFirstPlayerId();
-    int getSecondPlayerId();
 }

@@ -8,13 +8,11 @@ import java.util.UUID;
 
 public class OngoingMatchesServiceImpl implements OngoingMatchesService {
     private static UUID match_uuid;
-    private static int firstPlayerId;
-    private static int secondPlayerId;
 
     @Override
     public void createNewMatch(Player firstPlayer, Player secondPlayer) {
-        firstPlayerId = firstPlayer.getId();
-        secondPlayerId = secondPlayer.getId();
+        int firstPlayerId = firstPlayer.getId();
+        int secondPlayerId = secondPlayer.getId();
         MatchScore newMatch = new MatchScore(firstPlayerId, secondPlayerId);
 
         match_uuid = UUID.randomUUID();
@@ -32,16 +30,5 @@ public class OngoingMatchesServiceImpl implements OngoingMatchesService {
     public void removeMatch(UUID uuid) {
         matchScore.remove(uuid);
     }
-
-    @Override
-    public int getFirstPlayerId() {
-        return firstPlayerId;
-    }
-
-    @Override
-    public int getSecondPlayerId() {
-        return secondPlayerId;
-    }
-
 
 }

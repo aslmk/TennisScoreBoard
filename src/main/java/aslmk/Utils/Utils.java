@@ -1,5 +1,6 @@
 package aslmk.Utils;
 
+import aslmk.Models.MatchScore;
 import aslmk.Services.Impl.OngoingMatchesServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,10 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Utils {
-    public static int getOpponentId(int playerId) {
-        OngoingMatchesServiceImpl ongoingMatchesService = new OngoingMatchesServiceImpl();
-        return playerId == ongoingMatchesService.getFirstPlayerId() ?
-                ongoingMatchesService.getSecondPlayerId() : ongoingMatchesService.getFirstPlayerId();
+    public static int getOpponentId(int playerId, MatchScore currentMatchScore) {
+        return playerId == currentMatchScore.getFirstPlayerId() ?
+                currentMatchScore.getSecondPlayerId() : currentMatchScore.getFirstPlayerId();
     }
     public static int getPageNumber(String requestedPageNumber) {
         int pageNumber;

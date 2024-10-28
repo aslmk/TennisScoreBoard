@@ -28,8 +28,8 @@ public class MatchScoreServlet extends HttpServlet {
 
     }
     private void setPlayerScores(MatchScore matchScore, HttpServletRequest request) {
-        int firstPlayerId = ongoingMatchesService.getFirstPlayerId();
-        int secondPlayerId = ongoingMatchesService.getSecondPlayerId();
+        int firstPlayerId = matchScore.getFirstPlayerId();
+        int secondPlayerId = matchScore.getSecondPlayerId();
         request.setAttribute("firstPlayerId", firstPlayerId);
         request.setAttribute("firstPlayerName",  playersService.getPlayerNameById(firstPlayerId));
         request.setAttribute("firstPlayerPoints", matchScore.getPointsOfPlayer(firstPlayerId));
@@ -62,7 +62,7 @@ public class MatchScoreServlet extends HttpServlet {
                 currentMatchScore = matchScoreCalculationService.updatePlayerScore(match_uuid, playerId);
 
                 if (matchScoreCalculationService.isMatchWinner(currentMatchScore, playerId)) {
-                    Match finishedMatch = matchScoreCalculationService.FinishedMatch(playersService.getPlayerById(playerId));
+                    Match finishedMatch = matchScoreCalculationService.FinishedMatch(playersService.getPlayerById(playerId), currentMatchScore);
                     finishedMatchesPersistenceService.saveMatchToDatabase(finishedMatch);
                     setFinishedMatchInformation(request, finishedMatch, match_uuid);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/currentMatchResults.jsp");

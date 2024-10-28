@@ -18,7 +18,6 @@ public class MatchesServlet extends HttpServlet {
     PlayersServiceImpl playersService = new PlayersServiceImpl();
     FinishedMatchesPersistenceServiceImpl finishedMatchesPersistenceService = new FinishedMatchesPersistenceServiceImpl();
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageNumber = Utils.getPageNumber(request.getParameter("page"));

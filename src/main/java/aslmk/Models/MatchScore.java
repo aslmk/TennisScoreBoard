@@ -75,6 +75,13 @@ public class MatchScore {
         playerScores.get(secondPlayerId).setGames(0);
     }
 
+    public int getFirstPlayerId() {
+        return firstPlayerId;
+    }
+    public int getSecondPlayerId() {
+        return secondPlayerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
