@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public interface PlayersService {
     Player findByName(String name) throws SQLException;
-    void createPlayer(Player player) throws PlayerSaveFailedException;
+    Player createPlayer(String playerName) throws PlayerSaveFailedException;
     String getPlayerNameById(int id);
     Player getPlayerById(int playerId);
 }

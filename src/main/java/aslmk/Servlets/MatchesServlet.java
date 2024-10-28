@@ -2,7 +2,7 @@ package aslmk.Servlets;
 
 import aslmk.Models.Match;
 import aslmk.Models.Player;
-import aslmk.Services.Impl.MatchesServiceImpl;
+import aslmk.Services.Impl.FinishedMatchesPersistenceServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
 import aslmk.Utils.Utils;
 import jakarta.servlet.*;
@@ -16,17 +16,18 @@ import java.util.List;
 @WebServlet(name = "MatchesServlet", value = "/matches")
 public class MatchesServlet extends HttpServlet {
     PlayersServiceImpl playersService = new PlayersServiceImpl();
-    MatchesServiceImpl matchesService = new MatchesServiceImpl();
+    FinishedMatchesPersistenceServiceImpl finishedMatchesPersistenceService = new FinishedMatchesPersistenceServiceImpl();
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageNumber = Utils.getPageNumber(request.getParameter("page"));
 
         try {
-            List<Match> matches = matchesService.getMatchesByPage(pageNumber);
+            List<Match> matches = finishedMatchesPersistenceService.getMatchesByPage(pageNumber);
             request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("allMatches", matches);
-            request.setAttribute("hasNextPage", matchesService.hasNextPage(pageNumber));
+            request.setAttribute("hasNextPage", finishedMatchesPersistenceService.hasNextPage(pageNumber));
             request.setAttribute("isFilterApplied", false);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
@@ -48,12 +49,12 @@ public class MatchesServlet extends HttpServlet {
             Player player =  playersService.findByName(filterByName.trim().toUpperCase());
             if (player != null) {
                 playerId = player.getId();
-                matches = matchesService.getMatchesByPlayerId(playerId);
-                hasNextPage = matchesService.hasNextPage(playerId, pageNumber);
+                matches = finishedMatchesPersistenceService.getMatchesByPlayerId(playerId);
+                hasNextPage = finishedMatchesPersistenceService.hasNextPage(playerId, pageNumber);
                 isFilterApplied = true;
             } else {
-                matches = matchesService.getMatchesByPage(pageNumber);
-                hasNextPage = matchesService.hasNextPage(pageNumber);
+                matches = finishedMatchesPersistenceService.getMatchesByPage(pageNumber);
+                hasNextPage = finishedMatchesPersistenceService.hasNextPage(pageNumber);
                 isFilterApplied = false;
             }
             request.setAttribute("allMatches", matches);

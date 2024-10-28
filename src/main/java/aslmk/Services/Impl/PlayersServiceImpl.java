@@ -15,9 +15,15 @@ public class PlayersServiceImpl implements PlayersService {
         return playersDAO.getPlayerByName(name);
     }
 
-    @Override
-    public void createPlayer(Player player) throws PlayerSaveFailedException {
-        playersDAO.createPlayer(player);
+    public Player createPlayer(String playerName) throws PlayerSaveFailedException {
+        Player player = new Player(playerName.toUpperCase());
+        Player existingPlayer = playersDAO.getPlayerByName(playerName);
+        if (existingPlayer == null) {
+            playersDAO.createPlayer(player);
+        } else {
+            player = existingPlayer;
+        }
+        return player;
     }
 
     @Override

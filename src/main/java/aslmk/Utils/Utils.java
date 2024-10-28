@@ -24,6 +24,13 @@ public class Utils {
         return pageNumber <= 0 ? 1 : pageNumber;
     }
 
+    public static boolean isValidString(String str) {
+        if (str == null || str.isEmpty() || str.equals(" ") || str.equals("\n") || str.equals("\t")) {
+            return false;
+        }
+        return true;
+    }
+
     public static void redirectToErrorPage(int statusCode, String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(statusCode);
         request.setAttribute("errorMessage", message);

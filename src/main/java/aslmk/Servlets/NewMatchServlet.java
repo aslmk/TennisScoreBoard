@@ -25,39 +25,26 @@ public class NewMatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String player1Name = request.getParameter("player1");
-        String player2Name = request.getParameter("player2");
+        String firstPlayerName = request.getParameter("player1");
+        String secondPlayerName = request.getParameter("player2");
         try {
-            if (player1Name.equals(player2Name) || player1Name.isEmpty() || player2Name.isEmpty()) {
+            if (firstPlayerName.equals(secondPlayerName) ||
+                    !Utils.isValidString(firstPlayerName) ||
+                    !Utils.isValidString(secondPlayerName)) {
                 throw new InvalidParametersException("Enter first player name and second player name");
             }
 
-            Player player1 = new Player(player1Name.toUpperCase());
-            Player player2 = new Player(player2Name.toUpperCase());
-            Player existingPlayer1 = playersService.findByName(player1.getName());
-            Player existingPlayer2 = playersService.findByName(player2.getName());
+            Player firstPlayer = playersService.createPlayer(firstPlayerName);
+            Player secondPlayer = playersService.createPlayer(secondPlayerName);
 
-            if (existingPlayer1 == null) {
-                playersService.createPlayer(player1);
-            } else {
-                player1 = existingPlayer1;
-            }
-            if (existingPlayer2 == null) {
-                playersService.createPlayer(player2);
-            } else {
-                player2 = existingPlayer2;
-            }
-
-            ongoingMatchesService.createNewMatch(player1, player2);
+            ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
             UUID match_uuid = ongoingMatchesService.getUuidOfMatch();
 
-            setDefaultPlayersScore(request, player1, player2);
+            setDefaultPlayersScore(request, firstPlayer, secondPlayer);
             String newUrl = request.getContextPath() + "/matchScore.jsp?uuid=" + match_uuid;
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(newUrl);
             dispatcher.forward(request, response);
-        } catch (SQLException e) {
-            Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         } catch (InvalidParametersException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_BAD_REQUEST, e.getMessage(), request, response);
         }
