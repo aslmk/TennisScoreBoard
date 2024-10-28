@@ -11,7 +11,6 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "MatchesServlet", value = "/matches")
@@ -46,7 +45,7 @@ public class MatchesServlet extends HttpServlet {
         String filterByName = request.getParameter("filter_by_player_name");
 
         try {
-            Player player =  playersService.findByName(filterByName.trim());
+            Player player =  playersService.findByName(filterByName.trim().toUpperCase());
             if (player != null) {
                 playerId = player.getId();
                 matches = matchesService.getMatchesByPlayerId(playerId);
@@ -65,7 +64,7 @@ public class MatchesServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
     }
 }

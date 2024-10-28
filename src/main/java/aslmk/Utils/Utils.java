@@ -1,6 +1,12 @@
 package aslmk.Utils;
 
 import aslmk.Services.Impl.OngoingMatchesServiceImpl;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 public class Utils {
     public static int getOpponentId(int playerId) {
@@ -16,5 +22,13 @@ public class Utils {
             pageNumber = 1;
         }
         return pageNumber <= 0 ? 1 : pageNumber;
+    }
+
+    public static void redirectToErrorPage(int statusCode, String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setStatus(statusCode);
+        request.setAttribute("errorMessage", message);
+        request.setAttribute("status", statusCode);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/errorPage.jsp");
+        dispatcher.forward(request, response);
     }
 }

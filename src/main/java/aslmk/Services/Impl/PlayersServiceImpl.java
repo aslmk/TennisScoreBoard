@@ -5,11 +5,13 @@ import aslmk.Exceptions.PlayerSaveFailedException;
 import aslmk.Models.Player;
 import aslmk.Services.PlayersService;
 
+import java.sql.SQLException;
+
 public class PlayersServiceImpl implements PlayersService {
     private PlayersDAO playersDAO = new PlayersDAO();
 
     @Override
-    public Player findByName(String name) {
+    public Player findByName(String name) throws SQLException {
         return playersDAO.getPlayerByName(name);
     }
 

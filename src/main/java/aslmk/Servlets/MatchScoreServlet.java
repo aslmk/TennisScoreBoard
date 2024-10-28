@@ -1,25 +1,19 @@
 package aslmk.Servlets;
 
-import aslmk.DAO.PlayersDAO;
-import aslmk.Exceptions.InvalidParametersException;
 import aslmk.Exceptions.MatchNotFoundException;
 import aslmk.Exceptions.MatchSaveFailedException;
 import aslmk.Models.Match;
 import aslmk.Models.MatchScore;
-import aslmk.Models.Player;
 import aslmk.Services.Impl.FinishedMatchesPersistenceServiceImpl;
 import aslmk.Services.Impl.MatchScoreCalculationServiceImpl;
 import aslmk.Services.Impl.OngoingMatchesServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
 import aslmk.Utils.Utils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.hibernate.annotations.processing.SQL;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.UUID;
 
 @WebServlet(name = "MatchScoreServlet", value = "/match-score")
@@ -54,7 +48,6 @@ public class MatchScoreServlet extends HttpServlet {
         request.setAttribute("match", finishedMatch);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uuid = request.getParameter("uuid");
@@ -85,12 +78,11 @@ public class MatchScoreServlet extends HttpServlet {
 
             getServletContext().getRequestDispatcher("/matchScore.jsp?uuid="+match_uuid).forward(request, response);
 
-        } catch (InvalidParametersException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (MatchNotFoundException e) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+            Utils.redirectToErrorPage(HttpServletResponse.SC_NOT_FOUND, e.getMessage(), request, response);
         } catch (MatchSaveFailedException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
     }
+
 }
