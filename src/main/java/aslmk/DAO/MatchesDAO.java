@@ -28,13 +28,15 @@ public class MatchesDAO {
             return matches;
         }
     }
-    public List<Match> getMatchesByPlayerId(int playerId) {
+    public List<Match> getMatchesByPlayerId(int playerId, int pageNumber) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            int offset = (pageNumber - 1) * 10;
             String hql = "FROM Match WHERE player1.id = :id OR player2.id = :id";
             Query<Match> query = session.createQuery(hql, Match.class);
             query.setParameter("id", playerId);
-            List<Match> matches = query.list();
-            return matches;
+            query.setFirstResult(offset);
+            query.setMaxResults(pageSize);
+            return query.list();
         }
     }
     public boolean hasNextPage(int playerId, int pageNumber) {

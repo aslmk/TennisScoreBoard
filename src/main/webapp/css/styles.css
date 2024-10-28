@@ -1,5 +1,6 @@
 body {
     position: relative;
+    font-family: "JetBrains Mono ExtraBold", sans-serif;
 }
 
 .container {
@@ -17,6 +18,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     width: 90px;
+    text-transform: uppercase;
 }
 
 button:hover {
@@ -74,8 +76,9 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
-    color: black;
+    background-color: #333;
+    color: white;
+    text-transform: uppercase;
 }
 
 input[type="text"] {

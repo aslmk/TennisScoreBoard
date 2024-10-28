@@ -20,8 +20,8 @@ public class FinishedMatchesPersistenceServiceImpl implements FinishedMatchesPer
     }
 
     @Override
-    public List<Match> getMatchesByPlayerId(int playerId) throws SQLException {
-        return matchesDAO.getMatchesByPlayerId(playerId);
+    public List<Match> getMatchesByPlayerId(int playerId, int pageNumber) throws SQLException {
+        return matchesDAO.getMatchesByPlayerId(playerId, pageNumber);
     }
 
     @Override

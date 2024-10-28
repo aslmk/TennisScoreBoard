@@ -20,13 +20,13 @@ public class NewMatchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.sendRedirect("/newMatch.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String firstPlayerName = request.getParameter("player1");
-        String secondPlayerName = request.getParameter("player2");
+        String firstPlayerName = request.getParameter("player1").trim();
+        String secondPlayerName = request.getParameter("player2").trim();
         try {
             if (firstPlayerName.equals(secondPlayerName) ||
                     !Utils.isValidString(firstPlayerName) ||

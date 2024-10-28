@@ -30,4 +30,13 @@ INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (2, 5, 2);
 INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (6, 2, 2);
 INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (9, 3, 3);
 INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 3, 1);
-
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 6, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (6, 1, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (9, 1, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 3, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 7, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 8, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 5, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (6, 4, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (10, 1, 1);
+INSERT INTO Matches (player1_id, player2_id, winner_id) VALUES (1, 10, 1);

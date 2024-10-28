@@ -23,6 +23,7 @@
         int pageNumber = (int) request.getAttribute("pageNumber");
         boolean hasNextPage = (boolean) request.getAttribute("hasNextPage");
         boolean isFilterApplied = (boolean) request.getAttribute("isFilterApplied");
+        String filter_by_player_name = (String) request.getAttribute("filter_by_player_name");
     %>
 
     <div class="nav">
@@ -35,7 +36,7 @@
     <div class="container">
         <div class="findMatchByPlayerName">
             <form action="/matches" method="post">
-                <input type="text" name="filter_by_player_name" placeholder="Enter player name to find his matches">
+                <input type="text" name="filter_by_player_name" value="<%=filter_by_player_name%>" placeholder="Enter player name to find his matches">
                 <button>Find</button>
             </form>
         </div>
@@ -61,13 +62,24 @@
                 </tbody>
             </table>
             <div class="pageNavigation">
-                <a href="/matches?page=${pageNumber - 1}" ${pageNumber == 1 ? 'style="visibility: hidden;"' : ''}>Previous page</a>
-                <% if (hasNextPage) {%>
-                    <a href="/matches?page=${pageNumber + 1}" >Next page</a>
-                <%}%>
-                <% if (isFilterApplied) {%>
-                    <a href="/matches">Show all</a>
-                <%}%>
+                <form action="/matches" method="post" style="display: inline;">
+                    <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
+                    <input type="hidden" name="page" value="<%= pageNumber - 1 %>">
+                    <button type="submit" class="prevBtn" <%= pageNumber == 1 ? "style='visibility: hidden;'" : "" %>>Previous page</button>
+                </form>
+                <% if (isFilterApplied) { %>
+                <form action="/matches" method="post" style="display: inline;">
+                    <button type="submit" class="showAllBtn">Show all</button>
+                </form>
+                <% } %>
+
+                <% if (hasNextPage) { %>
+                <form action="/matches" method="post" style="display: inline;">
+                    <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
+                    <input type="hidden" name="page" value="<%= pageNumber + 1 %>">
+                    <button type="submit" class="nextBtn">Next page</button>
+                </form>
+                <% } %>
             </div>
         </div>
     </div>

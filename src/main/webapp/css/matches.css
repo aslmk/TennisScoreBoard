@@ -1,23 +1,27 @@
 .pageNavigation {
     margin-top: 10px;
-    padding: 20px;
-    background-color: #f8f8f8;
+    padding: 10px;
+    background-color: #333;
     border: 1px solid #ddd;
     border-radius: 5px;
+    text-align: center;
+    position: relative;
 }
 
 .pageNavigation a {
+    display: block;
     text-decoration: none;
-    color: #007bff;
+    color: #FFFFFF;
     padding: 10px;
     border: 1px solid transparent;
     border-radius: 4px;
     margin: 5px 0;
     transition: background-color 0.3s, border-color 0.3s;
+
 }
 
 .pageNavigation a:hover {
-    background-color: #e9ecef;
+    background-color: #666;
     border-color: #007bff;
 }
 
@@ -26,7 +30,31 @@
 }
 
 input[type="text"] {
-    width: calc(100% - 100px);
+    width: calc(100% - 70px);
     margin-bottom: 10px;
 }
 
+.prevBtn {
+    float: left;
+}
+
+.showAllBtn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.nextBtn {
+    float: right;
+}
+
+.pageNavigation::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+button {
+    width: fit-content;
+}
