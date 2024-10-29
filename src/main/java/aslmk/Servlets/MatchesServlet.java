@@ -17,7 +17,6 @@ import java.util.List;
 
 @WebServlet(name = "MatchesServlet", value = "/matches")
 public class MatchesServlet extends HttpServlet {
-    PlayersServiceImpl playersService = new PlayersServiceImpl();
     FinishedMatchesPersistenceServiceImpl finishedMatchesPersistenceService = new FinishedMatchesPersistenceServiceImpl();
 
     @Override
@@ -25,7 +24,6 @@ public class MatchesServlet extends HttpServlet {
         int pageNumber = Utils.getPageNumber(request.getParameter("page"));
         boolean isFilterApplied = false;
         boolean hasNextPage;
-        int playerId;
         List<Match> matches;
         String filterByName = request.getParameter("filter_by_player_name");
 
@@ -38,15 +36,8 @@ public class MatchesServlet extends HttpServlet {
 
         try {
             if (isFilterApplied) {
-                Player player =  playersService.findByName(filterByName);
-                if (player != null) {
-                    playerId = player.getId();
-                    matches = finishedMatchesPersistenceService.getMatchesByPlayerId(playerId, pageNumber);
-                    hasNextPage = finishedMatchesPersistenceService.hasNextPage(playerId, pageNumber);
-                } else {
-                    matches = Collections.emptyList();
-                    hasNextPage = false;
-                }
+                matches = finishedMatchesPersistenceService.getMatchesByPlayerName(filterByName, pageNumber);
+                hasNextPage = finishedMatchesPersistenceService.hasNextPage(filterByName, pageNumber);
             } else {
                 matches = finishedMatchesPersistenceService.getMatchesByPage(pageNumber);
                 hasNextPage = finishedMatchesPersistenceService.hasNextPage(pageNumber);
@@ -68,7 +59,6 @@ public class MatchesServlet extends HttpServlet {
         int pageNumber = Utils.getPageNumber(request.getParameter("page"));
         boolean hasNextPage;
         boolean isFilterApplied = true;
-        int playerId;
         List<Match> matches;
         String filterByName = request.getParameter("filter_by_player_name");
         if (!Utils.isValidString(filterByName)) {
@@ -79,19 +69,8 @@ public class MatchesServlet extends HttpServlet {
 
         try {
             if (!filterByName.isEmpty()) {
-                Player player =  playersService.findByName(filterByName);
-                if (player != null) {
-                    playerId = player.getId();
-                    matches = finishedMatchesPersistenceService.getMatchesByPlayerId(playerId, pageNumber);
-                    hasNextPage = finishedMatchesPersistenceService.hasNextPage(playerId, pageNumber);
-                } else {
-                    //matches = finishedMatchesPersistenceService.getMatchesByPage(pageNumber);
-                    //hasNextPage = finishedMatchesPersistenceService.hasNextPage(pageNumber);
-                    //isFilterApplied = false;
-                    matches = Collections.emptyList();
-                    hasNextPage = false;
-                    isFilterApplied = false;
-                }
+                matches = finishedMatchesPersistenceService.getMatchesByPlayerName(filterByName, pageNumber);
+                hasNextPage = finishedMatchesPersistenceService.hasNextPage(filterByName, pageNumber);
             } else {
                 matches = finishedMatchesPersistenceService.getMatchesByPage(pageNumber);
                 hasNextPage = finishedMatchesPersistenceService.hasNextPage(pageNumber);

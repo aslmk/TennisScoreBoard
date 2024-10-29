@@ -10,7 +10,6 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.UUID;
 
 @WebServlet(name = "NewMatchServlet", value = "/new-match")
@@ -34,8 +33,8 @@ public class NewMatchServlet extends HttpServlet {
                 throw new InvalidParametersException("Enter first player name and second player name");
             }
 
-            Player firstPlayer = playersService.createPlayer(firstPlayerName);
-            Player secondPlayer = playersService.createPlayer(secondPlayerName);
+            Player firstPlayer = playersService.createPlayerIfNotExists(firstPlayerName);
+            Player secondPlayer = playersService.createPlayerIfNotExists(secondPlayerName);
 
             ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
             UUID match_uuid = ongoingMatchesService.getUuidOfMatch();

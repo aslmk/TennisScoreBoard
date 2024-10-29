@@ -4,7 +4,6 @@ import aslmk.Models.MatchScore;
 import aslmk.Models.Player;
 import aslmk.Services.Impl.MatchScoreCalculationServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 import org.hibernate.cfg.Configuration;
@@ -23,8 +22,8 @@ public class MatchScoreCalculationTests {
 
     @Test
     void testDeuce() {
-        Player player1 = playersService.createPlayer("Player1");
-        Player player2 = playersService.createPlayer("Player2");
+        Player player1 = playersService.createPlayerIfNotExists("Player1");
+        Player player2 = playersService.createPlayerIfNotExists("Player2");
 
         MatchScore matchScore = new MatchScore(player1.getId(), player2.getId());
         matchScore.getPlayerScore(player1.getId()).setPoints(40);
@@ -36,8 +35,8 @@ public class MatchScoreCalculationTests {
 
     @Test
     void testPlayerWinsGame() {
-        Player player3 = playersService.createPlayer("Player3");
-        Player player4 = playersService.createPlayer("Player4");
+        Player player3 = playersService.createPlayerIfNotExists("Player3");
+        Player player4 = playersService.createPlayerIfNotExists("Player4");
         MatchScore matchScore = new MatchScore(player3.getId(), player4.getId());
         matchScore.getPlayerScore(player3.getId()).setPoints(40);
         boolean isGameWinner = matchScoreCalculationService.isGameWinner(matchScore, player3.getId(), player4.getId());
@@ -46,8 +45,8 @@ public class MatchScoreCalculationTests {
 
     @Test
     void testTieBreak() {
-        Player player5 = playersService.createPlayer("Player5");
-        Player player6 = playersService.createPlayer("Player6");
+        Player player5 = playersService.createPlayerIfNotExists("Player5");
+        Player player6 = playersService.createPlayerIfNotExists("Player6");
         MatchScore matchScore = new MatchScore(player5.getId(), player6.getId());
         matchScore.getPlayerScore(player5.getId()).setGames(6);
         matchScore.getPlayerScore(player6.getId()).setGames(6);

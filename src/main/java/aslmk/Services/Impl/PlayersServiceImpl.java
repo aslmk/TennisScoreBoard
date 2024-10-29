@@ -10,12 +10,7 @@ import java.sql.SQLException;
 public class PlayersServiceImpl implements PlayersService {
     private PlayersDAO playersDAO = new PlayersDAO();
 
-    @Override
-    public Player findByName(String name) throws SQLException {
-        return playersDAO.getPlayerByName(name);
-    }
-
-    public Player createPlayer(String playerName) throws PlayerSaveFailedException {
+    public Player createPlayerIfNotExists(String playerName) throws PlayerSaveFailedException {
         Player player = new Player(playerName.toUpperCase());
         Player existingPlayer = playersDAO.getPlayerByName(playerName);
         if (existingPlayer == null) {
@@ -25,7 +20,6 @@ public class PlayersServiceImpl implements PlayersService {
         }
         return player;
     }
-
     @Override
     public String getPlayerNameById(int playerId) {
         return playersDAO.getPlayerById(playerId).getName();

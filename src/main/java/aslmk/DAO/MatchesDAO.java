@@ -28,22 +28,23 @@ public class MatchesDAO {
             return matches;
         }
     }
-    public List<Match> getMatchesByPlayerId(int playerId, int pageNumber) {
+    public List<Match> getMatchesByPlayerName(String playerName, int pageNumber) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             int offset = (pageNumber - 1) * 10;
-            String hql = "FROM Match WHERE player1.id = :id OR player2.id = :id";
+            String hql = "FROM Match WHERE player1.name LIKE :name OR player2.name LIKE :name";
             Query<Match> query = session.createQuery(hql, Match.class);
-            query.setParameter("id", playerId);
+            query.setParameter("name", '%' + playerName + '%');
+
             query.setFirstResult(offset);
             query.setMaxResults(pageSize);
             return query.list();
         }
     }
-    public boolean hasNextPage(int playerId, int pageNumber) {
+    public boolean hasNextPage(String playerName, int pageNumber) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            String hql = "SELECT COUNT(m.id) FROM Match m WHERE m.player1.id = :id OR m.player2.id = :id";
+            String hql = "SELECT COUNT(m.id) FROM Match m WHERE m.player1.name LIKE :name OR m.player2.name LIKE :name";
             Query<Long> query = session.createQuery(hql, Long.class);
-            query.setParameter("id", playerId);
+            query.setParameter("name", '%' + playerName + '%');
             long totalMatches = query.uniqueResult();
             return totalMatches > pageSize*pageNumber;
         }
