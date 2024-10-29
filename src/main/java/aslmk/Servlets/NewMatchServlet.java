@@ -9,6 +9,7 @@ import aslmk.Utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.hibernate.HibernateException;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -47,6 +48,8 @@ public class NewMatchServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (InvalidParametersException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_BAD_REQUEST, e.getMessage(), request, response);
+        } catch (PlayerSaveFailedException e) {
+            Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
 
     }
