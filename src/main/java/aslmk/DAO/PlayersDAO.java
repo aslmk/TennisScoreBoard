@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.sql.SQLException;
+
 public class PlayersDAO {
     public Player getPlayerByName(String name) {
         Player player;
@@ -23,7 +25,7 @@ public class PlayersDAO {
     }
     public Player getPlayerById(int id) {
         Player player;
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             String hql = "FROM Player WHERE id = :id";
             Query<Player> query = session.createQuery(hql, Player.class);

@@ -10,16 +10,13 @@ public class OngoingMatchesServiceImpl implements OngoingMatchesService {
     private static UUID match_uuid;
 
     @Override
-    public void createNewMatch(Player firstPlayer, Player secondPlayer) {
+    public UUID createNewMatch(Player firstPlayer, Player secondPlayer) {
         int firstPlayerId = firstPlayer.getId();
         int secondPlayerId = secondPlayer.getId();
         MatchScore newMatch = new MatchScore(firstPlayerId, secondPlayerId);
 
         match_uuid = UUID.randomUUID();
         matchScore.put(match_uuid, newMatch);
-    }
-
-    public UUID getUuidOfMatch() {
         return match_uuid;
     }
     @Override

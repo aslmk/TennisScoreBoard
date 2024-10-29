@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface OngoingMatchesService {
     HashMap<UUID, MatchScore> matchScore = new HashMap<>();
-    void createNewMatch(Player player1, Player player2);
+    UUID createNewMatch(Player player1, Player player2);
     MatchScore getMatchByUUID(UUID uuid);
     void removeMatch(UUID uuid);
 }

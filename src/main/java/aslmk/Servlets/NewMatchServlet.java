@@ -1,6 +1,7 @@
 package aslmk.Servlets;
 
 import aslmk.Exceptions.InvalidParametersException;
+import aslmk.Exceptions.PlayerSaveFailedException;
 import aslmk.Models.Player;
 import aslmk.Services.Impl.OngoingMatchesServiceImpl;
 import aslmk.Services.Impl.PlayersServiceImpl;
@@ -27,17 +28,17 @@ public class NewMatchServlet extends HttpServlet {
         String firstPlayerName = request.getParameter("player1").trim();
         String secondPlayerName = request.getParameter("player2").trim();
         try {
-            if (firstPlayerName.equals(secondPlayerName) ||
-                    !Utils.isValidString(firstPlayerName) ||
+            if (!Utils.isValidString(firstPlayerName) ||
                     !Utils.isValidString(secondPlayerName)) {
-                throw new InvalidParametersException("Enter first player name and second player name");
+                throw new InvalidParametersException("Enter valid player names");
             }
-
+            if (firstPlayerName.equals(secondPlayerName)) {
+                throw new InvalidParametersException("Player names should be different");
+            }
             Player firstPlayer = playersService.createPlayerIfNotExists(firstPlayerName);
             Player secondPlayer = playersService.createPlayerIfNotExists(secondPlayerName);
 
-            ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
-            UUID match_uuid = ongoingMatchesService.getUuidOfMatch();
+            UUID match_uuid = ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
 
             setDefaultPlayersScore(request, firstPlayer, secondPlayer);
             String newUrl = request.getContextPath() + "/matchScore.jsp?uuid=" + match_uuid;
