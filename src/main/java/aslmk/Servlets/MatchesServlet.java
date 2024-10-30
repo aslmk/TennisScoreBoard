@@ -62,6 +62,7 @@ public class MatchesServlet extends HttpServlet {
         boolean isFilterApplied = true;
         List<Match> matches;
         String filterByName = request.getParameter("filter_by_player_name");
+
         if (!Utils.isValidString(filterByName)) {
             filterByName = "";
         } else {

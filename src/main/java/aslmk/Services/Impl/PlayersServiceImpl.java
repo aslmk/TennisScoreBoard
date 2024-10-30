@@ -23,10 +23,6 @@ public class PlayersServiceImpl implements PlayersService {
         return player;
     }
     @Override
-    public String getPlayerNameById(int playerId) {
-        return playersDAO.getPlayerById(playerId).getName();
-    }
-    @Override
     public Player getPlayerById(int playerId) {
         return playersDAO.getPlayerById(playerId);
     }

@@ -16,6 +16,8 @@
     <style><%@ include file="/css/reset.css"%></style>
     <style><%@ include file="/css/styles.css"%></style>
     <style><%@ include file="/css/matches.css"%></style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <%
@@ -46,7 +48,6 @@
                 <tr>
                     <th>First player</th>
                     <th>Second player</th>
-                    <th>Winner</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,9 +55,18 @@
                     for (Match match: allMatches) {
                 %>
                 <tr>
-                    <td><%= match.getFirstPlayer().getName() %></td>
-                    <td><%= match.getSecondPlayer().getName() %></td>
-                    <td><%= match.getWinner().getName() %></td>
+                    <td>
+                        <%= match.getFirstPlayer().getName() %>
+                        <%if (match.getFirstPlayer().getName().equals(match.getWinner().getName())) { %>
+                        <i class="fa-solid fa-trophy"></i>
+                        <%}%>
+                    </td>
+                    <td>
+                        <%if (match.getSecondPlayer().getName().equals(match.getWinner().getName())) { %>
+                        <i class="fa-solid fa-trophy"></i>
+                        <%}%>
+                        <%= match.getSecondPlayer().getName() %>
+                    </td>
                 </tr>
                 <% } %>
                 </tbody>
@@ -65,7 +75,7 @@
                 <form action="/matches" method="post" style="display: inline;">
                     <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
                     <input type="hidden" name="page" value="<%= pageNumber - 1 %>">
-                    <button type="submit" class="prevBtn" <%= pageNumber == 1 ? "style='visibility: hidden;'" : "" %>>Previous page</button>
+                    <button type="submit" class="prevBtn" <%= pageNumber == 1 ? "style='visibility: hidden;'" : "" %>>Previous</button>
                 </form>
                 <% if (isFilterApplied) { %>
                 <form action="/matches" method="post" style="display: inline;">
@@ -77,7 +87,7 @@
                 <form action="/matches" method="post" style="display: inline;">
                     <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
                     <input type="hidden" name="page" value="<%= pageNumber + 1 %>">
-                    <button type="submit" class="nextBtn">Next page</button>
+                    <button type="submit" class="nextBtn">Next</button>
                 </form>
                 <% } %>
             </div>
