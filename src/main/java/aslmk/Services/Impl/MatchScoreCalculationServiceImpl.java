@@ -8,24 +8,20 @@ import aslmk.Models.MatchScore;
 import aslmk.Models.Player;
 import aslmk.Services.MatchScoreCalculationService;
 import aslmk.Utils.Utils;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.Optional;
 import java.util.UUID;
 
 public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationService {
     OngoingMatchesServiceImpl ongoingMatchesService = new OngoingMatchesServiceImpl();
-    PlayersDAO playersDAO = new PlayersDAO();
 
     @Override
     public MatchScore updatePlayerScore(UUID match_uuid, int playerId) throws MatchNotFoundException {
         MatchScore currentMatch = ongoingMatchesService.getMatchByUUID(match_uuid);
 
         if (currentMatch == null) {
-            throw new MatchNotFoundException();
+            throw new MatchNotFoundException("Match not found.");
         }
 
-        int opponentId = Utils.getOpponentId(playerId, currentMatch);
+        int opponentId = currentMatch.getOpponentId(playerId);
 
 
         if (isDeuce(currentMatch, playerId, opponentId)) {
@@ -104,8 +100,8 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
     }
 
     public Match FinishedMatch(Player winnerPlayer, MatchScore currentMatchScore) {
-        Player firstPlayer = playersDAO.getPlayerById(currentMatchScore.getFirstPlayerId());
-        Player secondPlayer = playersDAO.getPlayerById(currentMatchScore.getSecondPlayerId());
+        Player firstPlayer = currentMatchScore.getFirstPlayer();
+        Player secondPlayer = currentMatchScore.getSecondPlayer();
 
         if (firstPlayer == null || secondPlayer == null || winnerPlayer == null) {
             throw new InvalidParametersException("Invalid parameters!");

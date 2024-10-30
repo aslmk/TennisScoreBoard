@@ -1,5 +1,6 @@
 package aslmk.Services.Impl;
 
+import aslmk.Exceptions.MatchNotFoundException;
 import aslmk.Models.MatchScore;
 import aslmk.Models.Player;
 import aslmk.Services.OngoingMatchesService;
@@ -7,15 +8,11 @@ import aslmk.Services.OngoingMatchesService;
 import java.util.UUID;
 
 public class OngoingMatchesServiceImpl implements OngoingMatchesService {
-    private static UUID match_uuid;
-
     @Override
     public UUID createNewMatch(Player firstPlayer, Player secondPlayer) {
-        int firstPlayerId = firstPlayer.getId();
-        int secondPlayerId = secondPlayer.getId();
-        MatchScore newMatch = new MatchScore(firstPlayerId, secondPlayerId);
+        MatchScore newMatch = new MatchScore(firstPlayer, secondPlayer);
 
-        match_uuid = UUID.randomUUID();
+        UUID match_uuid = UUID.randomUUID();
         matchScore.put(match_uuid, newMatch);
         return match_uuid;
     }

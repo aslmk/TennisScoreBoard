@@ -10,10 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Utils {
-    public static int getOpponentId(int playerId, MatchScore currentMatchScore) {
-        return playerId == currentMatchScore.getFirstPlayerId() ?
-                currentMatchScore.getSecondPlayerId() : currentMatchScore.getFirstPlayerId();
-    }
     public static int getPageNumber(String requestedPageNumber) {
         int pageNumber;
         try {

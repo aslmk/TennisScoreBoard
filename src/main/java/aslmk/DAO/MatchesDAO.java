@@ -22,7 +22,7 @@ public class MatchesDAO {
             throw new MatchSaveFailedException("Can't save current match.");
         }
     }
-    public List<Match> getMatchesByPage(int pageNumber) {
+    public List<Match> getMatchesByPage(int pageNumber) throws HibernateException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             int offset = (pageNumber - 1) * 10;
             List<Match> matches = session.createQuery("FROM Match", Match.class)
@@ -32,7 +32,7 @@ public class MatchesDAO {
             return matches;
         }
     }
-    public List<Match> getMatchesByPlayerName(String playerName, int pageNumber) {
+    public List<Match> getMatchesByPlayerName(String playerName, int pageNumber) throws HibernateException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             int offset = (pageNumber - 1) * 10;
             String hql = "FROM Match WHERE player1.name LIKE :name OR player2.name LIKE :name";
@@ -44,7 +44,7 @@ public class MatchesDAO {
             return query.list();
         }
     }
-    public boolean hasNextPage(String playerName, int pageNumber) {
+    public boolean hasNextPage(String playerName, int pageNumber) throws HibernateException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             String hql = "SELECT COUNT(m.id) FROM Match m WHERE m.player1.name LIKE :name OR m.player2.name LIKE :name";
             Query<Long> query = session.createQuery(hql, Long.class);
@@ -53,7 +53,7 @@ public class MatchesDAO {
             return totalMatches > pageSize*pageNumber;
         }
     }
-    public boolean hasNextPage(int pageNumber) {
+    public boolean hasNextPage(int pageNumber) throws HibernateException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             String hql = "SELECT COUNT(m.id) FROM Match m";
             Query<Long> query = session.createQuery(hql, Long.class);

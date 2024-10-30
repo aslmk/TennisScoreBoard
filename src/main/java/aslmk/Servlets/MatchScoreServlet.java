@@ -4,6 +4,7 @@ import aslmk.Exceptions.MatchNotFoundException;
 import aslmk.Exceptions.MatchSaveFailedException;
 import aslmk.Models.Match;
 import aslmk.Models.MatchScore;
+import aslmk.Models.Player;
 import aslmk.Services.Impl.FinishedMatchesPersistenceServiceImpl;
 import aslmk.Services.Impl.MatchScoreCalculationServiceImpl;
 import aslmk.Services.Impl.OngoingMatchesServiceImpl;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.rmi.server.UID;
 import java.util.UUID;
 
 @WebServlet(name = "MatchScoreServlet", value = "/match-score")
@@ -25,22 +27,15 @@ public class MatchScoreServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uuid = request.getParameter("uuid");
+        UUID match_uuid = UUID.fromString(uuid);
 
-    }
-    private void setPlayerScores(MatchScore matchScore, HttpServletRequest request) {
-        int firstPlayerId = matchScore.getFirstPlayerId();
-        int secondPlayerId = matchScore.getSecondPlayerId();
-        request.setAttribute("firstPlayerId", firstPlayerId);
-        request.setAttribute("firstPlayerName",  playersService.getPlayerNameById(firstPlayerId));
-        request.setAttribute("firstPlayerPoints", matchScore.getPointsOfPlayer(firstPlayerId));
-        request.setAttribute("firstPlayerGames", matchScore.getGamesOfPlayer(firstPlayerId));
-        request.setAttribute("firstPlayerSets", matchScore.getSetsOfPlayer(firstPlayerId));
+        MatchScore currentMatch = ongoingMatchesService.getMatchByUUID(match_uuid);
+        request.setAttribute("currentMatch", currentMatch);
 
-        request.setAttribute("secondPlayerId", secondPlayerId);
-        request.setAttribute("secondPlayerName", playersService.getPlayerNameById(secondPlayerId));
-        request.setAttribute("secondPlayerPoints", matchScore.getPointsOfPlayer(secondPlayerId));
-        request.setAttribute("secondPlayerGames", matchScore.getGamesOfPlayer(secondPlayerId));
-        request.setAttribute("secondPlayerSets", matchScore.getSetsOfPlayer(secondPlayerId));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/matchScore.jsp?uuid="+match_uuid);
+        dispatcher.forward(request, response);
+
     }
     private void setFinishedMatchInformation(HttpServletRequest request, Match finishedMatch, UUID match_uuid) {
         request.setAttribute("winner", finishedMatch.getWinner());
@@ -55,33 +50,30 @@ public class MatchScoreServlet extends HttpServlet {
 
         try {
             UUID match_uuid = UUID.fromString(uuid);
-            MatchScore currentMatchScore;
+            MatchScore currentMatch;
+            int playerId = Integer.parseInt(player);
 
-            if (player != null) {
-                int playerId = Integer.parseInt(player);
-                currentMatchScore = matchScoreCalculationService.updatePlayerScore(match_uuid, playerId);
+            currentMatch = matchScoreCalculationService.updatePlayerScore(match_uuid, playerId);
 
-                if (matchScoreCalculationService.isMatchWinner(currentMatchScore, playerId)) {
-                    Match finishedMatch = matchScoreCalculationService.FinishedMatch(playersService.getPlayerById(playerId), currentMatchScore);
-                    finishedMatchesPersistenceService.saveMatchToDatabase(finishedMatch);
-                    setFinishedMatchInformation(request, finishedMatch, match_uuid);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/currentMatchResults.jsp");
-                    dispatcher.forward(request, response);
-                    ongoingMatchesService.removeMatch(match_uuid);
-                    return;
-                }
-            } else {
-                currentMatchScore = ongoingMatchesService.getMatchByUUID(match_uuid);
+            if (matchScoreCalculationService.isMatchWinner(currentMatch, playerId)) {
+                Match finishedMatch = matchScoreCalculationService.FinishedMatch(playersService.getPlayerById(playerId), currentMatch);
+                finishedMatchesPersistenceService.saveMatchToDatabase(finishedMatch);
+                setFinishedMatchInformation(request, finishedMatch, match_uuid);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/currentMatchResults.jsp");
+                dispatcher.forward(request, response);
+                ongoingMatchesService.removeMatch(match_uuid);
+                return;
             }
-
-            setPlayerScores(currentMatchScore, request);
-
-            getServletContext().getRequestDispatcher("/matchScore.jsp?uuid="+match_uuid).forward(request, response);
+            request.setAttribute("currentMatch", currentMatch);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/matchScore.jsp?uuid="+match_uuid);
+            dispatcher.forward(request, response);
 
         } catch (MatchNotFoundException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_NOT_FOUND, e.getMessage(), request, response);
         } catch (MatchSaveFailedException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
+        } catch (IllegalArgumentException e) {
+            Utils.redirectToErrorPage(HttpServletResponse.SC_BAD_REQUEST, e.getMessage(), request, response);
         }
     }
 

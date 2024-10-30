@@ -43,28 +43,12 @@ public class NewMatchServlet extends HttpServlet {
 
             UUID match_uuid = ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
 
-            setDefaultPlayersScore(request, firstPlayer, secondPlayer);
-            String newUrl = request.getContextPath() + "/matchScore.jsp?uuid=" + match_uuid;
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(newUrl);
-            dispatcher.forward(request, response);
+            response.sendRedirect("/match-score?uuid=" + match_uuid);
         } catch (InvalidParametersException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_BAD_REQUEST, e.getMessage(), request, response);
         } catch (PlayerSaveFailedException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
 
-    }
-    private static void setDefaultPlayersScore(HttpServletRequest request, Player player1, Player player2) {
-        request.setAttribute("firstPlayerId", player1.getId());
-        request.setAttribute("secondPlayerId", player2.getId());
-        request.setAttribute("firstPlayerName", player1.getName());
-        request.setAttribute("secondPlayerName", player2.getName());
-        request.setAttribute("firstPlayerPoints", 0);
-        request.setAttribute("secondPlayerPoints", 0);
-        request.setAttribute("firstPlayerGames", 0);
-        request.setAttribute("secondPlayerGames", 0);
-        request.setAttribute("firstPlayerSets", 0);
-        request.setAttribute("secondPlayerSets", 0);
     }
 }

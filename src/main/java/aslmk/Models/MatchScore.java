@@ -6,12 +6,14 @@ import java.util.Objects;
 public class MatchScore {
     private HashMap<Integer, PlayerScore> playerScores;
     private int advantage;
-    private int firstPlayerId;
-    private int secondPlayerId;
+    private Player firstPlayer;
+    private Player secondPlayer;
 
-    public MatchScore (int player1Id, int player2Id) {
-        firstPlayerId = player1Id;
-        secondPlayerId = player2Id;
+    public MatchScore (Player firstPlayer, Player secondPlayer) {
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        int firstPlayerId = firstPlayer.getId();
+        int secondPlayerId = secondPlayer.getId();
         playerScores = new HashMap<>();
         playerScores.put(firstPlayerId, new PlayerScore());
         playerScores.put(secondPlayerId, new PlayerScore());
@@ -57,8 +59,8 @@ public class MatchScore {
         advantage = -1;
     }
     public void resetPlayersPoints() {
-        playerScores.get(firstPlayerId).setPoints(0);
-        playerScores.get(secondPlayerId).setPoints(0);
+        playerScores.get(firstPlayer.getId()).setPoints(0);
+        playerScores.get(secondPlayer.getId()).setPoints(0);
     }
     public void incrementTieBreakPointsOfPlayer (int playerId) {
         int currentTieBreakPoints = playerScores.get(playerId).getTieBreakPoints();
@@ -71,15 +73,18 @@ public class MatchScore {
         return playerScores.get(playerId);
     }
     public void resetPlayerGames() {
-        playerScores.get(firstPlayerId).setGames(0);
-        playerScores.get(secondPlayerId).setGames(0);
+        playerScores.get(firstPlayer.getId()).setGames(0);
+        playerScores.get(secondPlayer.getId()).setGames(0);
     }
 
-    public int getFirstPlayerId() {
-        return firstPlayerId;
+    public Player getFirstPlayer() {
+        return firstPlayer;
     }
-    public int getSecondPlayerId() {
-        return secondPlayerId;
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+    public int getOpponentId(int playerId) {
+        return firstPlayer.getId() == playerId ? secondPlayer.getId() : firstPlayer.getId();
     }
 
     @Override
@@ -87,14 +92,12 @@ public class MatchScore {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MatchScore that = (MatchScore) o;
-        return advantage == that.advantage && firstPlayerId == that.firstPlayerId && secondPlayerId == that.secondPlayerId && Objects.equals(playerScores, that.playerScores);
+        return advantage == that.advantage && firstPlayer == that.firstPlayer && secondPlayer == that.secondPlayer && Objects.equals(playerScores, that.playerScores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerScores, advantage, firstPlayerId, secondPlayerId);
+        return Objects.hash(playerScores, advantage, firstPlayer, secondPlayer);
     }
-
-
 }
 

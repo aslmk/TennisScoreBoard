@@ -1,4 +1,4 @@
-<%--
+<%@ page import="aslmk.Models.MatchScore" %><%--
   Created by IntelliJ IDEA.
   User: Lenovo
   Date: 04.10.2024
@@ -38,16 +38,16 @@
             </thead>
             <tbody>
             <tr>
-                <td>${firstPlayerName}</td>
-                <td>${firstPlayerPoints}</td>
-                <td>${firstPlayerGames}</td>
-                <td>${firstPlayerSets}</td>
+                <td>${currentMatch.getFirstPlayer().getName()}</td>
+                <td>${currentMatch.getPointsOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
+                <td>${currentMatch.getGamesOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
+                <td>${currentMatch.getSetsOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
             </tr>
             <tr>
-                <td>${secondPlayerName}</td>
-                <td>${secondPlayerPoints}</td>
-                <td>${secondPlayerGames}</td>
-                <td>${secondPlayerSets}</td>
+                <td>${currentMatch.getSecondPlayer().getName()}</td>
+                <td>${currentMatch.getPointsOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
+                <td>${currentMatch.getGamesOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
+                <td>${currentMatch.getSetsOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
             </tr>
             </tbody>
 
@@ -56,12 +56,12 @@
     <div class="buttons">
         <form action="/match-score" method="post">
             <input type="hidden" name="uuid" value="<%= uuid %>">
-            <input type="hidden" name="playerId" value="${firstPlayerId}">
+            <input type="hidden" name="playerId" value="${currentMatch.getFirstPlayer().getId()}">
             <button>Player 1 wins current point</button>
         </form>
         <form action="/match-score" method="post">
             <input type="hidden" name="uuid" value="<%= uuid %>">
-            <input type="hidden" name="playerId" value="${secondPlayerId}">
+            <input type="hidden" name="playerId" value="${currentMatch.getSecondPlayer().getId()}">
             <button>Player 2 wins current point</button>
         </form>
     </div>

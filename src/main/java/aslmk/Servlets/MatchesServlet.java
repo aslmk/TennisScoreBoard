@@ -8,6 +8,7 @@ import aslmk.Utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.hibernate.HibernateException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -49,7 +50,7 @@ public class MatchesServlet extends HttpServlet {
             request.setAttribute("filter_by_player_name", filterByName);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
-        } catch (SQLException e) {
+        } catch (HibernateException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
     }
@@ -86,7 +87,7 @@ public class MatchesServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/matches.jsp");
             dispatcher.forward(request, response);
 
-        } catch (SQLException e) {
+        } catch (HibernateException e) {
             Utils.redirectToErrorPage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), request, response);
         }
     }
