@@ -28,6 +28,7 @@ public class NewMatchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String firstPlayerName = request.getParameter("player1").trim();
         String secondPlayerName = request.getParameter("player2").trim();
+
         try {
             if (!Utils.isValidString(firstPlayerName) ||
                     !Utils.isValidString(secondPlayerName)) {
@@ -36,6 +37,7 @@ public class NewMatchServlet extends HttpServlet {
             if (firstPlayerName.equals(secondPlayerName)) {
                 throw new InvalidParametersException("Player names should be different");
             }
+
             Player firstPlayer = playersService.createPlayerIfNotExists(firstPlayerName);
             Player secondPlayer = playersService.createPlayerIfNotExists(secondPlayerName);
 

@@ -1,9 +1,11 @@
 package aslmk.Services.Impl;
 
 import aslmk.DAO.PlayersDAO;
+import aslmk.Exceptions.PlayerAlreadyExistsException;
 import aslmk.Exceptions.PlayerSaveFailedException;
 import aslmk.Models.Player;
 import aslmk.Services.PlayersService;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -13,11 +15,10 @@ public class PlayersServiceImpl implements PlayersService {
 
     public Player createPlayerIfNotExists(String playerName) throws PlayerSaveFailedException {
         Player player = new Player(playerName.toUpperCase());
-        Optional<Player> existingPlayer = playersDAO.getPlayerByName(playerName);
-        if (existingPlayer.isEmpty()) {
+        try {
             playersDAO.createPlayer(player);
-        } else {
-            player = existingPlayer.get();
+        } catch (PlayerAlreadyExistsException e) {
+            player = playersDAO.getPlayerByName(playerName);
         }
         return player;
     }
