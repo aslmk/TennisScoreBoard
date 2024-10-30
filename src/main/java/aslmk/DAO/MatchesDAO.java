@@ -1,7 +1,9 @@
 package aslmk.DAO;
 
+import aslmk.Exceptions.MatchSaveFailedException;
 import aslmk.Models.Match;
 import aslmk.Utils.HibernateSessionFactoryUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -11,11 +13,13 @@ import java.util.List;
 public class MatchesDAO {
     private static final int pageSize = 10;
 
-    public void saveMatchToDatabase(Match match) {
+    public void saveMatchToDatabase(Match match) throws MatchSaveFailedException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.persist(match);
             transaction.commit();
+        } catch (HibernateException e) {
+            throw new MatchSaveFailedException("Can't save current match.");
         }
     }
     public List<Match> getMatchesByPage(int pageNumber) {

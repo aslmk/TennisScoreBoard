@@ -9,29 +9,29 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 
+import java.util.Optional;
+
 
 public class PlayersDAO {
-    public Player getPlayerByName(String name) {
+    public Optional<Player> getPlayerByName(String name) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             String hql = "FROM Player WHERE name = :name";
             Query<Player> query = session.createQuery(hql, Player.class);
             query.setParameter("name", name);
-            return query.uniqueResult();
+            return Optional.ofNullable(query.uniqueResult());
         } catch (HibernateException e) {
             throw new PlayerSaveFailedException("Can't find player with name " + name);
         }
     }
     public Player getPlayerById(int id) {
-        Player player;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             String hql = "FROM Player WHERE id = :id";
             Query<Player> query = session.createQuery(hql, Player.class);
             query.setParameter("id", id);
-            player = query.uniqueResult();
+            return query.uniqueResult();
         } catch (HibernateException e) {
             throw new PlayerSaveFailedException(e.getMessage());
         }
-        return player;
     }
     public void createPlayer(Player player) throws PlayerSaveFailedException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {

@@ -10,6 +10,7 @@ import aslmk.Services.MatchScoreCalculationService;
 import aslmk.Utils.Utils;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationService {
@@ -105,6 +106,7 @@ public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationSe
     public Match FinishedMatch(Player winnerPlayer, MatchScore currentMatchScore) {
         Player firstPlayer = playersDAO.getPlayerById(currentMatchScore.getFirstPlayerId());
         Player secondPlayer = playersDAO.getPlayerById(currentMatchScore.getSecondPlayerId());
+
         if (firstPlayer == null || secondPlayer == null || winnerPlayer == null) {
             throw new InvalidParametersException("Invalid parameters!");
         }

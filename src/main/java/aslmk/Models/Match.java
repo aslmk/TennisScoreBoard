@@ -18,8 +18,6 @@ public class Match {
     @JoinColumn(name = "winner_id", nullable = false)
     private Player winner;
 
-    public Match() {
-    }
 
     public Player getWinner() {
         return winner;
