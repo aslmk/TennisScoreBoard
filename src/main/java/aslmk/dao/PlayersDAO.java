@@ -1,16 +1,14 @@
-package aslmk.DAO;
+package aslmk.dao;
 
-import aslmk.Exceptions.PlayerAlreadyExistsException;
-import aslmk.Exceptions.PlayerSaveFailedException;
-import aslmk.Models.Player;
-import aslmk.Utils.HibernateSessionFactoryUtil;
+import aslmk.exceptions.PlayerAlreadyExistsException;
+import aslmk.exceptions.PlayerSaveFailedException;
+import aslmk.models.Player;
+import aslmk.utils.HibernateSessionFactoryUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
-
-import java.util.Optional;
 
 
 public class PlayersDAO {

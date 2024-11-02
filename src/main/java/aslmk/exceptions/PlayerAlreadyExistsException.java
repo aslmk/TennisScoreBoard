@@ -1,4 +1,4 @@
-package aslmk.Exceptions;
+package aslmk.exceptions;
 
 public class PlayerAlreadyExistsException extends RuntimeException {
     public PlayerAlreadyExistsException() {

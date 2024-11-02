@@ -1,9 +1,9 @@
 package aslmk.junit5;
 
-import aslmk.Models.MatchScore;
-import aslmk.Models.Player;
-import aslmk.Services.Impl.MatchScoreCalculationServiceImpl;
-import aslmk.Services.Impl.PlayersServiceImpl;
+import aslmk.models.MatchScore;
+import aslmk.models.Player;
+import aslmk.services.Impl.MatchScoreCalculationServiceImpl;
+import aslmk.services.Impl.PlayersServiceImpl;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 import org.hibernate.cfg.Configuration;

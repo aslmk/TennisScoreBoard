@@ -1,4 +1,4 @@
-package aslmk.Exceptions;
+package aslmk.exceptions;
 
 public class InvalidParametersException extends RuntimeException {
     public InvalidParametersException(String message) {

@@ -1,15 +1,14 @@
-package aslmk.Servlets;
+package aslmk.servlets;
 
-import aslmk.Exceptions.InvalidParametersException;
-import aslmk.Exceptions.PlayerSaveFailedException;
-import aslmk.Models.Player;
-import aslmk.Services.Impl.OngoingMatchesServiceImpl;
-import aslmk.Services.Impl.PlayersServiceImpl;
-import aslmk.Utils.Utils;
+import aslmk.exceptions.InvalidParametersException;
+import aslmk.exceptions.PlayerSaveFailedException;
+import aslmk.models.Player;
+import aslmk.services.Impl.OngoingMatchesServiceImpl;
+import aslmk.services.Impl.PlayersServiceImpl;
+import aslmk.utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.hibernate.HibernateException;
 
 import java.io.IOException;
 import java.util.UUID;

@@ -15,12 +15,8 @@
     <% int statusCode = (int) request.getAttribute("statusCode"); %>
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="/newMatch.jsp">New match</a></li>
-            <li><a href="/matches">Matches</a></li>
-        </ul>
-    </div>
+<%@include file="navigation.jsp"%>
+
     <div class="container">
         <h1><%=errorMessage%></h1>
         <h2><%=statusCode%></h2>

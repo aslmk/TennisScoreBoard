@@ -1,12 +1,11 @@
-package aslmk.Services.Impl;
+package aslmk.services.Impl;
 
-import aslmk.DAO.MatchesDAO;
-import aslmk.Exceptions.MatchSaveFailedException;
-import aslmk.Models.Match;
-import aslmk.Services.FinishedMatchesPersistenceService;
+import aslmk.dao.MatchesDAO;
+import aslmk.exceptions.MatchSaveFailedException;
+import aslmk.models.Match;
+import aslmk.services.FinishedMatchesPersistenceService;
 import org.hibernate.HibernateException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class FinishedMatchesPersistenceServiceImpl implements FinishedMatchesPersistenceService {

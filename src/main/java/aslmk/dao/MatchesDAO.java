@@ -1,8 +1,8 @@
-package aslmk.DAO;
+package aslmk.dao;
 
-import aslmk.Exceptions.MatchSaveFailedException;
-import aslmk.Models.Match;
-import aslmk.Utils.HibernateSessionFactoryUtil;
+import aslmk.exceptions.MatchSaveFailedException;
+import aslmk.models.Match;
+import aslmk.utils.HibernateSessionFactoryUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

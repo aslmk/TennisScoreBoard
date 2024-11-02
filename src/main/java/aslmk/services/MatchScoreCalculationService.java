@@ -1,6 +1,6 @@
-package aslmk.Services;
+package aslmk.services;
 
-import aslmk.Models.MatchScore;
+import aslmk.models.MatchScore;
 
 import java.util.UUID;
 

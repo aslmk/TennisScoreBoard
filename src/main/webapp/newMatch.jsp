@@ -14,16 +14,12 @@
     <style><%@ include file="/css/newMatch.css"%></style>
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="/newMatch.jsp">New match</a></li>
-            <li><a href="/matches">Matches</a></li>
-        </ul>
-    </div>
+<%@include file="navigation.jsp"%>
+
     <div class="container">
         <div class="form-container">
             <h1>Tennis score board</h1>
-            <form action="/new-match" method="post">
+            <form action="${pageContext.request.contextPath}/new-match" method="post">
                 <div class="form-item">
                     <input type="text" name="player1" placeholder="Name of the first player">
                 </div>

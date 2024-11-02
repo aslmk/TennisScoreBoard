@@ -1,7 +1,7 @@
-package aslmk.Utils;
+package aslmk.utils;
 
-import aslmk.Models.Match;
-import aslmk.Models.Player;
+import aslmk.models.Match;
+import aslmk.models.Player;
 import org.hibernate.SessionFactory;
 
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

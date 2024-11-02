@@ -1,7 +1,5 @@
-package aslmk.Utils;
+package aslmk.utils;
 
-import aslmk.Models.MatchScore;
-import aslmk.Services.Impl.OngoingMatchesServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

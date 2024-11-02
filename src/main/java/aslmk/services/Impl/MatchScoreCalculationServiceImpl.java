@@ -1,13 +1,12 @@
-package aslmk.Services.Impl;
+package aslmk.services.Impl;
 
-import aslmk.DAO.PlayersDAO;
-import aslmk.Exceptions.InvalidParametersException;
-import aslmk.Exceptions.MatchNotFoundException;
-import aslmk.Models.Match;
-import aslmk.Models.MatchScore;
-import aslmk.Models.Player;
-import aslmk.Services.MatchScoreCalculationService;
-import aslmk.Utils.Utils;
+import aslmk.exceptions.InvalidParametersException;
+import aslmk.exceptions.MatchNotFoundException;
+import aslmk.models.Match;
+import aslmk.models.MatchScore;
+import aslmk.models.Player;
+import aslmk.services.MatchScoreCalculationService;
+
 import java.util.UUID;
 
 public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationService {

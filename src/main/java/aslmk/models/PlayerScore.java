@@ -1,4 +1,4 @@
-package aslmk.Models;
+package aslmk.models;
 
 import java.util.Objects;
 

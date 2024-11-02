@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="aslmk.Models.Match" %>
+<%@ page import="aslmk.models.Match" %>
 <html>
 <head>
     <title>Current match results</title>
@@ -19,12 +19,8 @@
     Match match = (Match) request.getAttribute("match");
     String match_uuid = (String) request.getAttribute("match_uuid");
 %>
-    <div class="nav">
-        <ul>
-            <li><a href="/newMatch.jsp">New match</a></li>
-            <li><a href="/matches">Matches</a></li>
-        </ul>
-    </div>
+<%@include file="navigation.jsp"%>
+
     <div class="container">
         <div class="results-container">
             <h1>Match results</h1>

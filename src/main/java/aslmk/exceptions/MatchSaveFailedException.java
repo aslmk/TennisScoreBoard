@@ -1,4 +1,4 @@
-package aslmk.Exceptions;
+package aslmk.exceptions;
 
 public class MatchSaveFailedException extends RuntimeException {
     public MatchSaveFailedException(String message) {

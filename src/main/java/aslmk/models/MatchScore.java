@@ -1,10 +1,10 @@
-package aslmk.Models;
+package aslmk.models;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MatchScore {
-    private HashMap<Integer, PlayerScore> playerScores;
+    private ConcurrentHashMap<Integer, PlayerScore> playerScores;
     private int advantage;
     private Player firstPlayer;
     private Player secondPlayer;
@@ -14,13 +14,10 @@ public class MatchScore {
         this.secondPlayer = secondPlayer;
         int firstPlayerId = firstPlayer.getId();
         int secondPlayerId = secondPlayer.getId();
-        playerScores = new HashMap<>();
+        playerScores = new ConcurrentHashMap<>();
         playerScores.put(firstPlayerId, new PlayerScore());
         playerScores.put(secondPlayerId, new PlayerScore());
         this.advantage = -1;
-    }
-    public int getPointsOfPlayer (int playerId){
-        return playerScores.get(playerId).getPoints();
     }
     public void incrementPointsOfPlayer(int playerId, int value) {
         PlayerScore player = playerScores.get(playerId);
@@ -28,12 +25,32 @@ public class MatchScore {
         player.setPoints(currentPointsCount + value);
         playerScores.put(playerId, player);
     }
+    public int getPointsOfPlayer (int playerId){
+        return playerScores.get(playerId).getPoints();
+    }
+    public void resetPointsOfPlayer (int playerId){
+        PlayerScore player = playerScores.get(playerId);
+        player.setPoints(0);
+    }
+    public void resetPlayersPoints() {
+        playerScores.get(firstPlayer.getId()).setPoints(0);
+        playerScores.get(secondPlayer.getId()).setPoints(0);
+    }
+
     public void incrementGamesOfPlayer(int playerId) {
         PlayerScore player = playerScores.get(playerId);
         int currentGamesCount = player.getGames();
         player.setGames(currentGamesCount + 1);
         playerScores.put(playerId, player);
     }
+    public int getGamesOfPlayer (int playerId) {
+        return playerScores.get(playerId).getGames();
+    }
+    public void resetPlayerGames() {
+        playerScores.get(firstPlayer.getId()).setGames(0);
+        playerScores.get(secondPlayer.getId()).setGames(0);
+    }
+
     public void incrementSetsOfPlayer(int playerId) {
         PlayerScore player = playerScores.get(playerId);
         int currentSetsCount = player.getSets();
@@ -42,13 +59,7 @@ public class MatchScore {
     public int getSetsOfPlayer (int playerId){
         return playerScores.get(playerId).getSets();
     }
-    public int getGamesOfPlayer (int playerId) {
-        return playerScores.get(playerId).getGames();
-    }
-    public void resetPointsOfPlayer (int playerId){
-        PlayerScore player = playerScores.get(playerId);
-        player.setPoints(0);
-    }
+
     public int getAdvantageOfPlayer() {
         return advantage;
     }
@@ -58,10 +69,7 @@ public class MatchScore {
     public void resetAdvantage() {
         advantage = -1;
     }
-    public void resetPlayersPoints() {
-        playerScores.get(firstPlayer.getId()).setPoints(0);
-        playerScores.get(secondPlayer.getId()).setPoints(0);
-    }
+
     public void incrementTieBreakPointsOfPlayer (int playerId) {
         int currentTieBreakPoints = playerScores.get(playerId).getTieBreakPoints();
         playerScores.get(playerId).setTieBreakPoints(currentTieBreakPoints + 1);
@@ -69,14 +77,10 @@ public class MatchScore {
     public int getTieBreakPoints(int playerId) {
         return playerScores.get(playerId).getTieBreakPoints();
     }
+
     public PlayerScore getPlayerScore(int playerId) {
         return playerScores.get(playerId);
     }
-    public void resetPlayerGames() {
-        playerScores.get(firstPlayer.getId()).setGames(0);
-        playerScores.get(secondPlayer.getId()).setGames(0);
-    }
-
     public Player getFirstPlayer() {
         return firstPlayer;
     }

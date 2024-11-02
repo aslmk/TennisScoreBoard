@@ -1,4 +1,4 @@
-package aslmk.Exceptions;
+package aslmk.exceptions;
 
 public class MatchNotFoundException extends RuntimeException {
     public MatchNotFoundException(String message) {

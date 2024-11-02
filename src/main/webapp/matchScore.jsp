@@ -1,4 +1,4 @@
-<%@ page import="aslmk.Models.MatchScore" %><%--
+<%@ page import="aslmk.models.MatchScore" %><%--
   Created by IntelliJ IDEA.
   User: Lenovo
   Date: 04.10.2024
@@ -18,12 +18,7 @@
 <%
     String uuid = request.getParameter("uuid");
 %>
-<div class="nav">
-    <ul>
-        <li><a href="/newMatch.jsp">New match</a></li>
-        <li><a href="/matches">Matches</a></li>
-    </ul>
-</div>
+<%@include file="navigation.jsp"%>
 
 <div class="container">
     <div class="table-container">

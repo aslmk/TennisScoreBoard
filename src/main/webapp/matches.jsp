@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="aslmk.Models.Match"%>
+<%@ page import="aslmk.models.Match"%>
 <%@ page import="java.util.List" %>
 
 
@@ -24,20 +24,14 @@
         List<Match> allMatches = (List<Match>) request.getAttribute("allMatches");
         int pageNumber = (int) request.getAttribute("pageNumber");
         boolean hasNextPage = (boolean) request.getAttribute("hasNextPage");
-        boolean isFilterApplied = (boolean) request.getAttribute("isFilterApplied");
         String filter_by_player_name = (String) request.getAttribute("filter_by_player_name");
     %>
 
-    <div class="nav">
-        <ul>
-            <li><a href="/newMatch.jsp">New match</a></li>
-            <li><a href="/matches">Matches</a></li>
-        </ul>
-    </div>
+    <%@include file="navigation.jsp"%>
 
     <div class="container">
         <div class="findMatchByPlayerName">
-            <form action="/matches" method="post">
+            <form action="${pageContext.request.contextPath}/matches" method="post">
                 <input type="text" name="filter_by_player_name" value="<%=filter_by_player_name%>" placeholder="Enter player name to find his matches">
                 <button>Find</button>
             </form>
@@ -72,19 +66,19 @@
                 </tbody>
             </table>
             <div class="pageNavigation">
-                <form action="/matches" method="post" style="display: inline;">
+                <form action="${pageContext.request.contextPath}/matches" method="post" style="display: inline;">
                     <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
                     <input type="hidden" name="page" value="<%= pageNumber - 1 %>">
                     <button type="submit" class="prevBtn" <%= pageNumber == 1 ? "style='visibility: hidden;'" : "" %>>Previous</button>
                 </form>
-                <% if (isFilterApplied) { %>
-                <form action="/matches" method="post" style="display: inline;">
+                <% if (!filter_by_player_name.isEmpty()) { %>
+                <form action="${pageContext.request.contextPath}/matches" method="post" style="display: inline;">
                     <button type="submit" class="showAllBtn">Show all</button>
                 </form>
                 <% } %>
 
                 <% if (hasNextPage) { %>
-                <form action="/matches" method="post" style="display: inline;">
+                <form action="${pageContext.request.contextPath}/matches" method="post" style="display: inline;">
                     <input type="hidden" name="filter_by_player_name" value="<%= filter_by_player_name %>">
                     <input type="hidden" name="page" value="<%= pageNumber + 1 %>">
                     <button type="submit" class="nextBtn">Next</button>

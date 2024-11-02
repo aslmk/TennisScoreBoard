@@ -1,9 +1,8 @@
-package aslmk.Services.Impl;
+package aslmk.services.Impl;
 
-import aslmk.Exceptions.MatchNotFoundException;
-import aslmk.Models.MatchScore;
-import aslmk.Models.Player;
-import aslmk.Services.OngoingMatchesService;
+import aslmk.models.MatchScore;
+import aslmk.models.Player;
+import aslmk.services.OngoingMatchesService;
 
 import java.util.UUID;
 

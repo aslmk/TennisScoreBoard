@@ -1,4 +1,4 @@
-package aslmk.Exceptions;
+package aslmk.exceptions;
 
 public class PlayerSaveFailedException extends RuntimeException {
     public PlayerSaveFailedException(String message) {
