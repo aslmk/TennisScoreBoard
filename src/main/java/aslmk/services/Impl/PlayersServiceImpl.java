@@ -10,13 +10,14 @@ public class PlayersServiceImpl implements PlayersService {
     private PlayersDAO playersDAO = new PlayersDAO();
 
     public Player createPlayerIfNotExists(String playerName) throws PlayerSaveFailedException {
-        Player player = new Player(playerName.toUpperCase());
+        playerName = playerName.toUpperCase();
+        Player newPlayer = new Player(playerName);
         try {
-            playersDAO.createPlayer(player);
+            playersDAO.createPlayer(newPlayer);
         } catch (PlayerAlreadyExistsException e) {
-            player = playersDAO.getPlayerByName(playerName);
+            newPlayer = playersDAO.getPlayerByName(playerName);
         }
-        return player;
+        return newPlayer;
     }
     @Override
     public Player getPlayerById(int playerId) {

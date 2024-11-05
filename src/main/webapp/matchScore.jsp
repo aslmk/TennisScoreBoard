@@ -33,16 +33,16 @@
             </thead>
             <tbody>
             <tr>
-                <td>${currentMatch.getFirstPlayer().getName()}</td>
-                <td>${currentMatch.getPointsOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
-                <td>${currentMatch.getGamesOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
-                <td>${currentMatch.getSetsOfPlayer(currentMatch.getFirstPlayer().getId())}</td>
+                <td>${currentMatchScore.getFirstPlayer().getName()}</td>
+                <td>${currentMatchScore.getPlayerPoints(0)}</td>
+                <td>${currentMatchScore.getGameScore(0)}</td>
+                <td>${currentMatchScore.getSetsScore(0)}</td>
             </tr>
             <tr>
-                <td>${currentMatch.getSecondPlayer().getName()}</td>
-                <td>${currentMatch.getPointsOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
-                <td>${currentMatch.getGamesOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
-                <td>${currentMatch.getSetsOfPlayer(currentMatch.getSecondPlayer().getId())}</td>
+                <td>${currentMatchScore.getSecondPlayer().getName()}</td>
+                <td>${currentMatchScore.getPlayerPoints(1)}</td>
+                <td>${currentMatchScore.getGameScore(1)}</td>
+                <td>${currentMatchScore.getSetsScore(1)}</td>
             </tr>
             </tbody>
 
@@ -51,12 +51,12 @@
     <div class="buttons">
         <form action="/match-score" method="post">
             <input type="hidden" name="uuid" value="<%= uuid %>">
-            <input type="hidden" name="playerId" value="${currentMatch.getFirstPlayer().getId()}">
+            <input type="hidden" name="playerId" value="0">
             <button>Player 1 wins current point</button>
         </form>
         <form action="/match-score" method="post">
             <input type="hidden" name="uuid" value="<%= uuid %>">
-            <input type="hidden" name="playerId" value="${currentMatch.getSecondPlayer().getId()}">
+            <input type="hidden" name="playerId" value="1">
             <button>Player 2 wins current point</button>
         </form>
     </div>

@@ -1,115 +1,37 @@
 package aslmk.services.Impl;
 
-import aslmk.exceptions.InvalidParametersException;
-import aslmk.exceptions.MatchNotFoundException;
-import aslmk.models.Match;
-import aslmk.models.MatchScore;
+import aslmk.dto.MatchDTO;
 import aslmk.models.Player;
+import aslmk.services.Impl.matchScoreCalculation.CurrentMatchScore;
+import aslmk.services.Impl.matchScoreCalculation.MatchState;
 import aslmk.services.MatchScoreCalculationService;
 
 import java.util.UUID;
 
 public class MatchScoreCalculationServiceImpl implements MatchScoreCalculationService {
-    OngoingMatchesServiceImpl ongoingMatchesService = new OngoingMatchesServiceImpl();
-
     @Override
-    public MatchScore updatePlayerScore(UUID match_uuid, int playerId) throws MatchNotFoundException {
-        MatchScore currentMatch = ongoingMatchesService.getMatchByUUID(match_uuid);
-
-        if (currentMatch == null) {
-            throw new MatchNotFoundException("Match not found.");
+    public MatchState updateScore(int playerNumber, CurrentMatchScore currentMatchScore) {
+        MatchState currentMatchState = currentMatchScore.pointWon(playerNumber);
+        if (currentMatchState == MatchState.FIRST_PLAYER_WON) {
+            return MatchState.FIRST_PLAYER_WON;
+        } else if (currentMatchState == MatchState.SECOND_PLAYER_WON) {
+            return MatchState.SECOND_PLAYER_WON;
         }
-
-        int opponentId = currentMatch.getOpponentId(playerId);
-
-
-        if (isDeuce(currentMatch, playerId, opponentId)) {
-            handleDeuce(currentMatch, playerId);
-        }
-        if (isGameWinner(currentMatch, playerId, opponentId)) {
-            currentMatch.incrementGamesOfPlayer(playerId);
-            currentMatch.resetPlayersPoints();
-        }
-        if (isSetWinner(currentMatch, playerId, opponentId)) {
-            currentMatch.incrementSetsOfPlayer(playerId);
-            currentMatch.resetPlayerGames();
-        } else if (isTieBreak(currentMatch, playerId, opponentId)) {
-            if (isTieBreakWinner(currentMatch, playerId, opponentId)) {
-                currentMatch.incrementSetsOfPlayer(playerId);
-                currentMatch.resetPlayerGames();
-            }
-            currentMatch.incrementTieBreakPointsOfPlayer(playerId);
-        }
-
-        addPointsToPlayer(playerId, currentMatch);
-
-
-        return currentMatch;
+        return MatchState.ONGOING;
     }
-
-    private void addPointsToPlayer(int playerId, MatchScore match) {
-        int playerPoints = match.getPointsOfPlayer(playerId);
-
-        if (playerPoints < 30) {
-            match.incrementPointsOfPlayer(playerId, 15);
-        } else {
-            match.incrementPointsOfPlayer(playerId, 10);
-        }
-    }
-    public boolean isDeuce(MatchScore match, int playerId, int opponentId) {
-        return match.getPointsOfPlayer(playerId) == 40 && match.getPointsOfPlayer(opponentId) == 40;
-
-    }
-    private void handleDeuce(MatchScore match, int playerId) {
-        int advantage = match.getAdvantageOfPlayer();
-        if (advantage == -1) {
-            match.setAdvantageOfPlayer(playerId);
-        } else if (advantage == playerId) {
-            match.incrementGamesOfPlayer(playerId);
-            match.resetPointsOfPlayer(playerId);
-            match.resetAdvantage();
-        } else {
-            match.resetAdvantage();
-        }
-    }
-    public boolean isGameWinner(MatchScore match, int playerId, int opponentId) {
-        int pointsDiff = match.getPointsOfPlayer(playerId) - match.getPointsOfPlayer(opponentId);
-        return match.getPointsOfPlayer(playerId) >= 40 && pointsDiff >= 2;
-    }
-    public boolean isSetWinner(MatchScore match, int playerId, int opponentId) {
-        int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
-        int gamesCountOfOpponent = match.getGamesOfPlayer(opponentId);
-        int gamesCountDiff = gamesCountOfPlayer - gamesCountOfOpponent;
-        return gamesCountOfPlayer > 6 && gamesCountDiff >= 2;
-    }
-    public boolean isTieBreak(MatchScore match, int playerId, int opponentId) {
-        int gamesCountOfPlayer = match.getGamesOfPlayer(playerId);
-        int gamesCountOfOpponent = match.getGamesOfPlayer(opponentId);
-        return gamesCountOfPlayer == 6 && gamesCountOfOpponent == 6;
-    }
-    public boolean isTieBreakWinner(MatchScore match, int playerId, int opponentId) {
-        int tieBreakPointsCountOfPlayer = match.getTieBreakPoints(playerId);
-        int tieBreakPointsCountOfOpponent = match.getTieBreakPoints(opponentId);
-        int tieBreakPointsDiff = tieBreakPointsCountOfPlayer - tieBreakPointsCountOfOpponent;
-        return tieBreakPointsCountOfPlayer >= 7 && tieBreakPointsDiff >= 2;
-    }
-    public boolean isMatchWinner(MatchScore match, int playerId) {
-        int setsCountOfPlayer = match.getSetsOfPlayer(playerId);
-        return setsCountOfPlayer == 2;
-    }
-
-    public Match FinishedMatch(Player winnerPlayer, MatchScore currentMatchScore) {
+    @Override
+    public MatchDTO createMatchDTO(UUID match_uuid, CurrentMatchScore currentMatchScore, Player winner) {
         Player firstPlayer = currentMatchScore.getFirstPlayer();
         Player secondPlayer = currentMatchScore.getSecondPlayer();
-
-        if (firstPlayer == null || secondPlayer == null || winnerPlayer == null) {
-            throw new InvalidParametersException("Invalid parameters!");
+        return new MatchDTO(match_uuid, firstPlayer, secondPlayer, winner);
+    }
+    @Override
+    public Player determineWinner(Player player1, Player player2, MatchState currentMatchState) {
+        if (currentMatchState == MatchState.FIRST_PLAYER_WON) {
+            return player1;
+        } else if (currentMatchState == MatchState.SECOND_PLAYER_WON) {
+            return player2;
         }
-        Match match = new Match();
-        match.setFirstPlayer(firstPlayer);
-        match.setSecondPlayer(secondPlayer);
-        match.setWinner(winnerPlayer);
-
-        return match;
+        return null;
     }
 }

@@ -5,5 +5,4 @@ import aslmk.models.Player;
 
 public interface PlayersService {
     Player createPlayerIfNotExists(String playerName) throws PlayerSaveFailedException;
-    Player getPlayerById(int playerId);
 }

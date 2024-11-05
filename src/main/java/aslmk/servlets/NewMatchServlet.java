@@ -5,6 +5,7 @@ import aslmk.exceptions.PlayerSaveFailedException;
 import aslmk.models.Player;
 import aslmk.services.Impl.OngoingMatchesServiceImpl;
 import aslmk.services.Impl.PlayersServiceImpl;
+import aslmk.services.Impl.matchScoreCalculation.CurrentMatchScore;
 import aslmk.utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -40,7 +41,8 @@ public class NewMatchServlet extends HttpServlet {
             Player firstPlayer = playersService.createPlayerIfNotExists(firstPlayerName);
             Player secondPlayer = playersService.createPlayerIfNotExists(secondPlayerName);
 
-            UUID match_uuid = ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
+            CurrentMatchScore currentMatch = ongoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
+            UUID match_uuid = currentMatch.getMatchUUID();
 
             response.sendRedirect("/match-score?uuid=" + match_uuid);
         } catch (InvalidParametersException e) {

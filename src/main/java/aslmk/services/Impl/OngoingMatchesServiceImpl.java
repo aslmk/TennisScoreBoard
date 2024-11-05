@@ -1,22 +1,22 @@
 package aslmk.services.Impl;
 
-import aslmk.models.MatchScore;
 import aslmk.models.Player;
 import aslmk.services.OngoingMatchesService;
+import aslmk.services.Impl.matchScoreCalculation.CurrentMatchScore;
 
 import java.util.UUID;
 
 public class OngoingMatchesServiceImpl implements OngoingMatchesService {
     @Override
-    public UUID createNewMatch(Player firstPlayer, Player secondPlayer) {
-        MatchScore newMatch = new MatchScore(firstPlayer, secondPlayer);
-
+    public CurrentMatchScore createNewMatch(Player firstPlayer, Player secondPlayer) {
         UUID match_uuid = UUID.randomUUID();
+
+        CurrentMatchScore newMatch = new CurrentMatchScore(match_uuid, firstPlayer, secondPlayer);
         matchScore.put(match_uuid, newMatch);
-        return match_uuid;
+        return newMatch;
     }
     @Override
-    public MatchScore getMatchByUUID(UUID uuid) {
+    public CurrentMatchScore getMatchByUUID(UUID uuid) {
         return matchScore.get(uuid);
     }
     @Override

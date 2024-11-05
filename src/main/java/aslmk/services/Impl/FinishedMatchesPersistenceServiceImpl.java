@@ -1,5 +1,6 @@
 package aslmk.services.Impl;
 
+import aslmk.dto.MatchDTO;
 import aslmk.dao.MatchesDAO;
 import aslmk.exceptions.MatchSaveFailedException;
 import aslmk.models.Match;
@@ -11,7 +12,11 @@ import java.util.List;
 public class FinishedMatchesPersistenceServiceImpl implements FinishedMatchesPersistenceService {
     MatchesDAO matchesDAO = new MatchesDAO();
     @Override
-    public void saveMatchToDatabase(Match match) throws MatchSaveFailedException {
+    public void saveMatchToDatabase(MatchDTO matchDTO) throws MatchSaveFailedException {
+        Match match = new Match();
+        match.setFirstPlayer(matchDTO.getFirstPlayer());
+        match.setSecondPlayer(matchDTO.getSecondPlayer());
+        match.setWinner(matchDTO.getWinner());
         matchesDAO.saveMatchToDatabase(match);
     }
     @Override

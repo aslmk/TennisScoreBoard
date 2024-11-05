@@ -32,7 +32,7 @@ public class PlayersDAO {
             throw new PlayerSaveFailedException(e.getMessage());
         }
     }
-    public void createPlayer(Player player) throws PlayerSaveFailedException {
+    public void createPlayer(Player player) throws PlayerSaveFailedException, PlayerAlreadyExistsException {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.persist(player);
