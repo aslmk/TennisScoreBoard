@@ -19,8 +19,4 @@ public class PlayersServiceImpl implements PlayersService {
         }
         return newPlayer;
     }
-    @Override
-    public Player getPlayerById(int playerId) {
-        return playersDAO.getPlayerById(playerId);
-    }
 }

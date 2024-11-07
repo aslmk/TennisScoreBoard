@@ -2,7 +2,7 @@ package aslmk.services.Impl.matchScoreCalculation;
 
 public class RegularGameScore extends Score<RegularGamePlayerPoints> {
     @Override
-    MatchState pointWon(int playerNumber) {
+    public MatchState pointWon(int playerNumber) {
         RegularGamePlayerPoints playerScore = getPlayerScore(playerNumber);
 
         if (playerScore.ordinal() <= RegularGamePlayerPoints.THIRTY.ordinal()) {

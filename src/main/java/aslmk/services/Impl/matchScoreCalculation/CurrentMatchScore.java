@@ -39,7 +39,7 @@ public class CurrentMatchScore extends Score<Integer> {
         }
         return MatchState.ONGOING;
     }
-    private MatchState setWon(int playerNumber) {
+    public MatchState setWon(int playerNumber) {
         setPlayerScore(playerNumber, getPlayerScore(playerNumber) + 1);
 
         if (getPlayerScore(0) == 2) {

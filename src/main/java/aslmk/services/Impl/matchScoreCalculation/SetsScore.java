@@ -8,7 +8,7 @@ public class SetsScore extends Score<Integer> {
     }
 
     @Override
-    MatchState pointWon(int playerNumber) {
+    public MatchState pointWon(int playerNumber) {
         MatchState matchState = currentGame.pointWon(playerNumber);
         if (matchState == MatchState.FIRST_PLAYER_WON) {
             return gameWon(0);
@@ -18,7 +18,7 @@ public class SetsScore extends Score<Integer> {
         return MatchState.ONGOING;
     }
 
-    private MatchState gameWon(int playerNumber) {
+    public MatchState gameWon(int playerNumber) {
         setPlayerScore(playerNumber, getPlayerScore(playerNumber) + 1);
         this.currentGame = new RegularGameScore();
 

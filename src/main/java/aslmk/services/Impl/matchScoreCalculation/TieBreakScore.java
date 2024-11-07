@@ -8,7 +8,7 @@ public class TieBreakScore extends Score<Integer> {
     }
 
     @Override
-    MatchState pointWon(int playerNumber) {
+    public MatchState pointWon(int playerNumber) {
         setPlayerScore(playerNumber, getPlayerScore(playerNumber) + 1);
 
         int scoreDiff = getPlayerScore(playerNumber) - getOpponentScore(playerNumber);
