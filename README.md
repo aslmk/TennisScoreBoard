@@ -78,31 +78,31 @@ according to the rules of tennis.
 
 ## Screenshots
 
-
-<figure>
+<figure style="text-align: center;">
   <img src="src/main/resources/screenshots/img.png" alt="Main menu">
   <figcaption>Main menu</figcaption>
 </figure>
-
-<figure>
+<br>
+<figure style="text-align: center;">
   <img src="src/main/resources/screenshots/img_1.png" alt="Current match score">
   <figcaption>Current match score</figcaption>
 </figure>
-
-<figure>
+<br>
+<figure style="text-align: center;">
   <img src="src/main/resources/screenshots/img_2.png" alt="Current match results">
   <figcaption>Current match results</figcaption>
 </figure>
-
-<figure>
+<br>
+<figure style="text-align: center;">
   <img src="src/main/resources/screenshots/img_3.png" alt="Page of all matches">
   <figcaption>Page of all matches</figcaption>
 </figure>
-
-<figure>
+<br>
+<figure style="text-align: center;">
   <img src="src/main/resources/screenshots/img_4.png" alt="All matches of a specific player">
   <figcaption>All matches of a specific player</figcaption>
 </figure>
+
 
 
 ## What did I learn from this project?
